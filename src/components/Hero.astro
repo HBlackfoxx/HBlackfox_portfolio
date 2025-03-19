@@ -1,0 +1,33 @@
+---
+import eljakani from '../imgs/eljakani.jpg';
+import { Image } from 'astro:assets';
+import mohamedBoukri from '../imgs/mohamed-boukri.jpg'; // Placeholder: Replace with your actual image
+import { Icon } from 'astro-icon/components';
+const alert = {
+    'statu': "ongoing",
+    'title': "Seeking an end-of-studies internship",
+}
+import { Badge } from "@/components/ui/badge"
+---
+
+<div class="flex flex-row items-center justify-start gap-4 mt-4 md:mt-8">
+    <Image src={eljakani} alt="Mohamed Boukri" class="rounded-2xl w-32 h-32" loading="eager" />
+    <div class="flex flex-col items-center md:items-start justify-center ml-4">
+        <h1 class="font-alt text-start text-xl md:text-3xl font-light text-balance">
+            Hi, <span class="font-bold">I'm Mohamed Boukri<span class="text-point">.</span></span> 👋
+        </h1>
+        <h2 class="font-alt text-start text-lg md:text-3xl font-light text-balance">
+            I <span class="text-point font-bold">Optimize</span> processes, and I <span class="text-point font-bold">Innovate</span> with AI & Blockchain.
+        </h2>
+        <div class="items-center gap-2 flex-col md:flex-row mt-4 hidden md:flex">
+            <Badge variant="outline">
+                <span class="font-alt text-xs font-light antialiased leading-2 md:leading-tight">{alert.title}</span>
+            </Badge>
+        </div>
+    </div>
+</div>
+<div class="my-4">
+    <p class="font-alt text-md md:text-xl font-light antialiased leading-2 md:leading-relaxed text-left text-balance">
+        Industrial Engineering graduate and Master’s student in Data & AI for Industrial Engineering at École Centrale de Lyon. Passionate about optimizing industrial processes, leveraging AI for predictive analytics, and securing blockchain systems through smart contract auditing.
+    </p>
+</div>

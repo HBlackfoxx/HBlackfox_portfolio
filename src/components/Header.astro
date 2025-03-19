@@ -1,0 +1,20 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { Github, Linkedin } from 'lucide-react';
+
+---
+
+<header class="py-4 flex justify-between items-center" transition:persist>
+  <nav class="hidden md:flex items-center space-x-4">
+    <a href="#" target="_blank" rel="noopener dofollow" class="rounded-full p-2 text-muted-foreground hover:text-primary bg-primary/10 hover:bg-primary/20 transition-colors px-3">
+      Blog
+    </a>
+  </nav>
+  <h1 class="text-2xl font-bold font-alt">Boukri<span class="text-point">.</span></h1>
+  <div class="flex items-center space-x-4">
+    <a href="https://www.linkedin.com/in/mohamed-boukri-427b37189" class="text-muted-foreground hover:text-primary" target="_blank" rel="noopener dofollow" aria-label="Linkedin">
+      <Linkedin className="w-6 h-6" />
+    </a>
+    <ThemeToggle />
+  </div>
+</header>

@@ -1,0 +1,113 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/globals.css';
+import { GoogleFontsOptimizer } from "astro-google-fonts-optimizer";
+import { SEO } from "astro-seo";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  ogType?: string;
+  twitterCreator?: string;
+  twitterCard?: string;
+  twitterSite?: string;
+  siteName?: string;
+}
+
+const defaultTitle = "Mohamed Boukri - Cyber Security Engineer";
+const defaultDescription = "Cybersecurity engineering student. Passionate about securing digital environments and automating security processes. Experienced in web development, penetration testing, and blockchain technologies.";
+const defaultImage = "https://eljakani.me/og-image.jpg";
+const defaultOgType = "website";
+const defaultTwitterCreator = "@eljakaniyassin";
+const defaultTwitterCard = "summary_large_image";
+const defaultTwitterSite = "@eljakaniyassin";
+const defaultSiteName = "Mohamed Boukri";
+
+const {
+  title = defaultTitle,
+  description = defaultDescription,
+  image = defaultImage,
+  ogType = defaultOgType,
+  twitterCreator = defaultTwitterCreator,
+  twitterCard = defaultTwitterCard,
+  twitterSite = defaultTwitterSite,
+  siteName = defaultSiteName
+} = Astro.props;
+
+const siteUrl = "https://boukri.me"; // Replace with your actual site URL
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title: title,
+          type: ogType,
+          image: image,
+        },
+        image: {
+          alt: title,
+        },
+        optional: {
+          siteName: siteName,
+          description: description,
+        },
+      }}
+      twitter={{
+        creator: twitterCreator,
+        site: twitterSite,
+        title: title,
+        image: image,
+        imageAlt: title,
+        description: description,
+      }}
+      extend={{
+        link: [
+          { rel: "icon", href: "/favicon.svg" },
+          { rel: "canonical", href: `${siteUrl}${Astro.url.pathname}` }
+        ],
+        meta: [
+          { name: "generator", content: Astro.generator },
+        ],
+      }}
+  />
+  <ViewTransitions />
+  <GoogleFontsOptimizer url="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" />
+  <script is:inline>
+    function getThemePreference() {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function setTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+      window.localStorage.setItem('theme', theme);
+    }
+
+    setTheme(getThemePreference());
+
+    document.addEventListener('astro:after-swap', () => {
+      setTheme(getThemePreference());
+    });
+  </script>
+</head>
+<body class="min-h-screen bg-background font-sans antialiased">
+<div class="relative flex min-h-screen flex-col container mx-auto px-4 max-w-5xl">
+  <div class="flex-1">
+    <slot />
+  </div>
+</div>
+</body>
+</html>

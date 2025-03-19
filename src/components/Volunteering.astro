@@ -1,0 +1,108 @@
+---
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+import GCDSTE from '../../public/club_gcdste_logo.jpeg';
+import EMJE from '../../public/EMJE.png';
+
+interface VolunteerExperience {
+    role: string;
+    organization: string;
+    startDate: Date;
+    endDate?: Date;
+    description: string[];
+    image?: ImageMetadata;
+}
+
+function calculateDuration(startDate: Date, endDate?: Date): string {
+    const end = endDate || new Date();
+    const diffTime = Math.abs(end.getTime() - startDate.getTime());
+    const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
+    const diffMonths = Math.floor((diffTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+
+    let duration = '';
+    if (diffYears > 0) {
+        duration += `${diffYears} yr${diffYears > 1 ? 's' : ''} `;
+    }
+    if (diffMonths > 0) {
+        duration += `${diffMonths} mo${diffMonths > 1 ? 's' : ''}`;
+    }
+    return duration.trim();
+}
+
+const volunteerExperiences: VolunteerExperience[] = [
+    {
+        role: "Vice President",
+        organization: "Club GCDSTE Secure Tech ENSA Marrakech",
+        startDate: new Date(2023, 8),
+        description: [
+            "Facilitated collaboration between club teams, boosting productivity.",
+            "Organized AiSec 2024, an international AI and Cybersecurity summit.",
+            "Developed the official website for AiSec 2024, an international AI and Cybersecurity summit.",
+        ],
+        image: GCDSTE
+    },
+    {
+        role: "Competition Cell Member",
+        organization: "Club GCDSTE Secure Tech ENSA Marrakech",
+        startDate: new Date(2022, 8), 
+        endDate: new Date(2023, 8),
+        description: [
+            "Organized the second edition of CyberWeek, a week-long cybersecurity event.",
+            "Organized a national Capture The Flag (CTF) cybersecurity competition.",
+            "Created Web-Related Challenges for the CTF competition."
+        ],
+        image: GCDSTE
+    },
+    {
+        role: "I.T Manager",
+        organization: "Club EMJE (ENSA Marrakech Junior Enterprise)",
+        startDate: new Date(2021, 8), 
+        endDate: new Date(2022, 8),
+        description: [
+            "Ensuring the proper functioning of the cell and the good progress of the projects",
+            "Carrying out various development projects and designing we sites",
+        ],
+        image: EMJE
+    },
+    // More experiences...
+];
+
+---
+
+<section id="volunteering" class="py-16">
+    <h3 class="text-4xl font-bold mb-10 text-foreground">Volunteering</h3>
+    <div class="space-y-6">
+        {volunteerExperiences.map((experience) => (
+            <Card className="bg-gradient-to-br from-background to-muted/30 rounded-2xl shadow-lg border overflow-hidden transition-all duration-300 hover:shadow-xl">
+                <CardHeader className="p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        {experience.image && (
+                            <Image 
+                                src={experience.image} 
+                                alt={`${experience.organization} image`}
+                                class="w-16 h-16 sm:w-24 sm:h-24 rounded-xl object-cover mt-4 sm:mt-0 ml-auto hidden sm:block"
+                            />
+                        )}
+                        <div class="flex-grow">
+                            <CardTitle className="text-lg sm:text-xl font-semibold text-foreground font-alt">{experience.role}</CardTitle>
+                            <p class="text-base sm:text-lg text-primary/80 font-alt">{experience.organization}</p>
+                            <div class="flex items-center text-xs sm:text-sm text-foreground/60 mt-2">
+                                <Icon name="lucide:calendar" class="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-primary/70" />
+                                {`${experience.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${experience.endDate ? experience.endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'} · ${calculateDuration(experience.startDate, experience.endDate)}`}
+                            </div>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="p-4 sm:p-6 pt-0">
+                    <ul class="list-disc list-outside ml-4 space-y-2 text-sm sm:text-base">
+                        {experience.description.map((item) => (
+                            <li class="text-foreground/80">{item}</li>
+                        ))}
+                    </ul>
+                </CardContent>
+            </Card>
+        ))}
+    </div>
+</section>

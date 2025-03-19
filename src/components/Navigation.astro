@@ -1,0 +1,29 @@
+---
+import StickyNavigation from './StickyNavigation';
+
+const navItems = [
+{ id: 'skills', label: 'Skills', icon: "PencilRuler"  },
+  { id: 'education', label: 'Education', icon: "GraduationCap" },
+  { id: 'experience', label: 'Experience', icon: "BriefcaseBusiness" },
+  { id: 'projects', label: 'Projects', icon: "Binary" },
+  //{ id: 'certifications', label: 'Certifications', icon: "Award" },
+  { id: 'volunteering', label: 'Volunteering', icon: "Sprout" }
+];
+---
+
+<StickyNavigation client:load navItems={navItems} />
+
+<style>
+  :global(.sticky-nav) {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition: transform 0.3s ease-in-out;
+    margin-top: 0;
+    padding-top: 0.7rem;
+  }
+
+  :global(.sticky-nav.hidden) {
+    transform: translateY(-100%);
+  }
+</style>

@@ -1,0 +1,400 @@
+---
+import Layout from './Layout.astro';
+import { Icon } from 'astro-icon/components';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Image } from 'astro:assets';
+
+interface Challenge {
+    title: string;
+    description: string;
+    solution: string;
+}
+
+interface Link {
+    url: string;
+    text: string;
+    icon?: string;
+}
+
+interface TeamMember {
+    name: string;
+    link: string;
+}
+
+interface Frontmatter {
+    id: string;
+    name: string;
+    description?: string;
+    icon?: string;
+    image?: ImageMetadata;
+    overview?: string;
+    features?: string[];
+    process?: string;
+    date?: string;
+    category?: string;
+    team?: TeamMember[];
+    client?: string;
+    tech?: string[];
+    links?: Link[];
+    challenges?: Challenge[];
+    results?: string;
+    images?: ImageMetadata[];
+}
+
+const { frontmatter } = Astro.props;
+const metaDescription = frontmatter.description || frontmatter.overview || `Details about the ${frontmatter.name} project`;
+---
+
+<Layout
+        title={`${frontmatter.name || 'Project'} | Yassine El Jakani`}
+        description={metaDescription}
+        image={frontmatter.image}
+>
+    <article class="container mx-auto px-4 py-16 max-w-4xl">
+        <Button variant="ghost" size="sm" asChild className="mb-8">
+            <a href="/#projects" class="flex items-center text-primary hover:text-primary/80 mb-8">
+                <Icon name="lucide:arrow-left" class="w-4 h-4 mr-2" />
+                Back to Projects
+            </a>
+        </Button>
+
+        <header class="mb-12">
+            <div class="flex items-center gap-4 mb-4">
+                {frontmatter.icon && (
+                        <div class="bg-primary/10 p-3 rounded-full" transition:name={`project-icon-${frontmatter.id}`}>
+                            <Icon name={frontmatter.icon} class="w-8 h-8 text-primary" />
+                        </div>
+                )}
+                <h1 class="text-4xl font-bold text-foreground font-alt" transition:name={`project-name-${frontmatter.id}`}>{frontmatter.name || 'Project'}</h1>
+            </div>
+            {frontmatter.description && <p class="text-xl text-muted-foreground" transition:name={`project-desc-${frontmatter.id}`}>{frontmatter.description}</p>}
+        </header>
+
+        {frontmatter.image && (
+                <Image
+                        src={frontmatter.image}
+                        alt={`${frontmatter.name || 'Project'} featured image`}
+                        width={1200}
+                        height={630}
+                        transition:animate="fade"
+                        transition:name={`project-${frontmatter.id}`}
+                        class="w-full h-auto rounded-2xl shadow-lg mb-12"
+                        loading="eager"
+                />
+        )}
+
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+            <div class="md:col-span-2 space-y-8">
+                {frontmatter.overview && (
+                        <section>
+                            <h2 class="text-2xl font-semibold mb-4 font-alt">Overview</h2>
+                            <p class="text-muted-foreground">{frontmatter.overview}</p>
+                        </section>
+                )}
+
+                {frontmatter.features && frontmatter.features.length > 0 && (
+                        <section>
+                            <h2 class="text-2xl font-semibold mb-4 font-alt">Key Features</h2>
+                            <ul class="space-y-2">
+                                {frontmatter.features.map((feature: string) => (
+                                        <li class="flex items-start">
+                                            <Icon name="lucide:check-circle" class="w-5 h-5 text-primary mr-2 flex-shrink-0 mt-1" />
+                                            <span class="text-muted-foreground">{feature}</span>
+                                        </li>
+                                ))}
+                            </ul>
+                        </section>
+                )}
+
+                {frontmatter.process && (
+                        <section>
+                            <h2 class="text-2xl font-semibold mb-4 font-alt">Development Process</h2>
+                            <p class="text-muted-foreground">{frontmatter.process}</p>
+                        </section>
+                )}
+            </div>
+
+            <div class="space-y-8">
+                <section class="bg-muted/30 p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 font-alt">Project Details</h2>
+                    <dl class="space-y-4">
+                        {frontmatter.date && (
+                                <>
+                                    <dt class="font-semibold text-sm uppercase text-muted-foreground">Date</dt>
+                                    <dd class="text-foreground">{frontmatter.date}</dd>
+                                </>
+                        )}
+                        {frontmatter.category && (
+                                <>
+                                    <dt class="font-semibold text-sm uppercase text-muted-foreground font-alt">Category</dt>
+                                    <dd class="text-foreground">{frontmatter.category}</dd>
+                                </>
+                        )}
+                        {frontmatter.team && (
+                                <>
+                                    <dt class="font-semibold text-sm uppercase text-muted-foreground font-alt">Team</dt>
+                                    <dd class="flex flex-wrap gap-2 mt-1">
+                                        {frontmatter.team.map((member: TeamMember) => (
+                                                <a href={member.link} target="_blank" rel="noopener noreferrer" class="text-sm flex items-center text-foreground py-0.5 px-1.5 bg-primary/10 rounded-full hover:bg-primary/20">
+                                                    {member.name}
+                                                </a>
+                                        ))}
+                                    </dd>
+                                </>
+                        )}
+                        {frontmatter.client && (
+                                <>
+                                    <dt class="font-semibold text-sm uppercase text-muted-foreground font-alt">Client</dt>
+                                    <dd class="text-foreground">{frontmatter.client}</dd>
+                                </>
+                        )}
+                    </dl>
+                </section>
+
+                {frontmatter.tech && frontmatter.tech.length > 0 && (
+                        <section>
+                            <h2 class="text-xl font-semibold mb-4 font-alt">Technologies Used</h2>
+                            <div class="flex flex-wrap gap-2">
+                                {frontmatter.tech.map((tech: string) => (
+                                        <Badge variant="secondary">{tech}</Badge>
+                                ))}
+                            </div>
+                        </section>
+                )}
+
+                {frontmatter.links && frontmatter.links.length > 0 && (
+                        <section>
+                            <h2 class="text-xl font-semibold mb-4 font-alt">Project Links</h2>
+                            <ul class="space-y-2">
+                                {frontmatter.links.map((link: Link) => (
+                                        <li>
+                                            <a
+                                                    href={link.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="flex items-center text-primary hover:underline"
+                                            >
+                                                {link.icon && <Icon name={link.icon} class="w-4 h-4 mr-2" />}
+                                                {link.text}
+                                            </a>
+                                        </li>
+                                ))}
+                            </ul>
+                        </section>
+                )}
+            </div>
+        </div>
+
+        {frontmatter.challenges && frontmatter.challenges.length > 0 && (
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4 font-alt">Challenges and Solutions</h2>
+                    <div class="space-y-4">
+                        {frontmatter.challenges.map((challenge: Challenge) => (
+                                <div class="bg-muted/20 p-6 rounded-xl">
+                                    <h3 class="font-semibold mb-2">{challenge.title}</h3>
+                                    <p class="text-muted-foreground mb-4">{challenge.description}</p>
+                                    <p class="text-primary"><strong>Solution:</strong> {challenge.solution}</p>
+                                </div>
+                        ))}
+                    </div>
+                </section>
+        )}
+
+        {frontmatter.results && (
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4 font-alt">Results and Impact</h2>
+                    <p class="text-muted-foreground">{frontmatter.results}</p>
+                </section>
+        )}
+
+        {frontmatter.images && frontmatter.images.length > 0 && (
+                <section>
+                    <h2 class="text-2xl font-semibold mb-8 font-alt">Project Gallery</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="gallery">
+                        {frontmatter.images.map((image: ImageMetadata, index: number) => (
+                                <div class="gallery-item cursor-pointer" data-index={index}>
+                                    <Image
+                                            src={image}
+                                            alt={`${frontmatter.name || 'Project'} - Image ${index + 1}`}
+                                            width={400}
+                                            height={300}
+                                            class="w-full h-48 object-cover rounded-lg shadow-md transition-transform duration-300"
+                                            loading="lazy"
+                                    />
+                                </div>
+                        ))}
+                    </div>
+                </section>
+        )}
+    </article>
+
+    <!-- Optimized Gallery Modal -->
+    <div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center">
+        <div class="max-w-4xl w-full p-4 relative">
+            <img id="modalImage" src="" alt="Gallery image" class="max-h-[80vh] w-auto mx-auto rounded-lg shadow-lg" />
+            <button id="prevImage" class="modal-btn absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-colors rounded-full p-2" aria-label="Previous image">
+                <Icon name="lucide:chevron-left" class="w-8 h-8" />
+            </button>
+            <button id="nextImage" class="modal-btn absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-colors rounded-full p-2" aria-label="Next image">
+                <Icon name="lucide:chevron-right" class="w-8 h-8" />
+            </button>
+            <button id="closeModal" class="modal-btn absolute top-4 right-4 bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-colors rounded-full p-2" aria-label="Close modal">
+                <Icon name="lucide:x" class="w-8 h-8" />
+            </button>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    function initGallery() {
+        let currentImageIndex = 0;
+        const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-item');
+        const modal = document.getElementById('galleryModal');
+        const modalImage = document.getElementById('modalImage') as HTMLImageElement | null;
+        const closeButton = document.getElementById('closeModal');
+        const prevButton = document.getElementById('prevImage');
+        const nextButton = document.getElementById('nextImage');
+
+        if (!modal || !modalImage || !closeButton || !prevButton || !nextButton) return;
+
+        function openModal(index: number) {
+            currentImageIndex = index;
+            updateModalImage();
+            modal?.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal?.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function updateModalImage() {
+            const imgElement = galleryItems[currentImageIndex].querySelector('img');
+            if (imgElement instanceof HTMLImageElement && modalImage) {
+                modalImage.src = imgElement.src;
+                modalImage.alt = imgElement.alt;
+            }
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+            updateModalImage();
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+            updateModalImage();
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openModal(index));
+        });
+
+        closeButton.addEventListener('click', closeModal);
+        nextButton.addEventListener('click', showNextImage);
+        prevButton.addEventListener('click', showPrevImage);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (modal && !modal.classList.contains('hidden')) {
+                if (e.key === 'ArrowRight') showNextImage();
+                if (e.key === 'ArrowLeft') showPrevImage();
+                if (e.key === 'Escape') closeModal();
+            }
+        });
+
+        // Lazy loading optimization
+        const observerOptions: IntersectionObserverInit = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target.querySelector('img');
+                    if (img instanceof HTMLImageElement && img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        galleryItems.forEach(item => {
+            imageObserver.observe(item);
+        });
+
+        // Preload adjacent images for smoother navigation
+        function preloadAdjacentImages() {
+            const preloadIndex = (index: number) => {
+                const adjacentImg = galleryItems[index].querySelector('img');
+                if (adjacentImg instanceof HTMLImageElement && adjacentImg.dataset.src) {
+                    const preloadLink = document.createElement('link');
+                    preloadLink.href = adjacentImg.dataset.src;
+                    preloadLink.rel = 'preload';
+                    preloadLink.as = 'image';
+                    document.head.appendChild(preloadLink);
+                }
+            };
+
+            const nextIndex = (currentImageIndex + 1) % galleryItems.length;
+            const prevIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+
+            preloadIndex(nextIndex);
+            preloadIndex(prevIndex);
+        }
+
+        // Attach preload to navigation events
+        nextButton.addEventListener('click', preloadAdjacentImages);
+        prevButton.addEventListener('click', preloadAdjacentImages);
+    }
+
+    // Initialize gallery on initial page load
+    initGallery();
+
+    // Reinitialize gallery after Astro page transitions
+    document.addEventListener('astro:page-load', initGallery);
+</script>
+
+<style>
+    .gallery-item {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
+
+    #galleryModal {
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    #galleryModal.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    #modalImage {
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .modal-btn {
+        opacity: 0.8;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .modal-btn:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+</style>

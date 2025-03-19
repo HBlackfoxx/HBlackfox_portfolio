@@ -1,0 +1,90 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+
+const projects = [
+  {
+    id: 'siemtinel',
+    name: 'SIEMTINEL',
+    description: 'Cloud-based SIEM with ELK Stack and Suricata',
+    extendedDescription: 'A cloud-based SIEM system using the ELK Stack for real-time threat detection and analysis, with Suricata for network monitoring and Kafka for scalable log transport.',
+    year: '2024',
+    icon: 'lucide:shield',
+    category: 'Security',
+    image: '/projects/siemtinel/siemtinel_featured.png',
+    tech: ['ELK stack', 'Suricata', 'Kafka', 'Docker', 'AWS']
+  },
+  {
+    id: 'hac',
+    name: 'HaC (Hardening as Code)',
+    description: 'Linux hardening script based on ANSSI V2 guidelines',
+    extendedDescription: 'A modular Linux hardening script designed to enhance system security by implementing recommendations from the ANSSI V2 guidelines.',
+    year: '2023',
+    icon: 'lucide:shield-check',
+    category: 'Security',
+    image: '/projects/hac/hac_featured.png',
+    tech: ['Bash', 'Linux', 'ANSSI Guidelines']
+  },
+  {
+    id: 'quizqube',
+    name: 'QuizQube',
+    description: 'AI-powered quiz platform for learning and knowledge testing',
+    extendedDescription: 'An AI-powered quiz platform that helps users learn and test their knowledge by generating quizzes from uploaded documents.',
+    year: '2024',
+    icon: 'lucide:brain-circuit',
+    category: 'Personal',
+    image: '/projects/quizqube/quizqube_featured.png',
+    tech: ['Next.js', 'Shadcn UI', 'Framer Motion', 'NextAuth.js', 'AWS S3', 'LLMs']
+  },
+  // more projects are yet to come ...
+];
+---
+
+<section id="projects" class="py-16 min-h-screen">
+  <h2 class="text-3xl font-bold mb-8 text-foreground">Projects</h2>
+  <div class="grid gap-8">
+    {projects.map((project) => (
+        <a href={`/projects/${project.id}`} class="group">
+          <div class="border border-border rounded-3xl p-6 transition-all duration-300 hover:bg-muted/50 overflow-hidden">
+            <div class="flex flex-col md:flex-row gap-6">
+              <div class="md:w-1/3">
+                <Image
+                    src={project.image}
+                    alt={`${project.name} project`}
+                    width={100}
+                    height={100}
+                    transition:animate="fade"
+                    transition:name={`project-${project.id}`}
+                    class="w-full h-48 object-cover rounded-2xl"
+                />
+              </div>
+              <div class="md:w-2/3">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="flex items-center">
+                    <div class="bg-primary/10 p-2 rounded-full mr-4" transition:name={`project-icon-${project.id}`}>
+                      <Icon name={project.icon} class="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 class="text-2xl font-semibold text-foreground" transition:name={`project-name-${project.id}`} >{project.name}</h3>
+                  </div>
+                  <span class="text-sm text-muted-foreground">{project.year}</span>
+                </div>
+                <p
+                    class="text-muted-foreground mb-4"
+                    transition:name={`project-desc-${project.id}`}
+                >{project.extendedDescription}</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((tech) => (
+                      <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">{tech}</span>
+                  ))}
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-primary">{project.category}</span>
+                  <Icon name="lucide:arrow-right" class="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+    ))}
+  </div>
+</section>

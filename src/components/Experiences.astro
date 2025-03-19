@@ -1,0 +1,211 @@
+---
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import shellboxesLogo from '../imgs/Logo_Shellboxes.png';
+import mondelezLogo from '../imgs/Logo_Mondelez.webp';
+import maghrebLogo from '../imgs/Logo_Maghreb_Oxygene.png';
+import digitalITLogo from '../imgs/Logo_DigitalIT.png'; // Placeholder: Add actual logo
+import fiverrLogo from '../imgs/Logo_Fiverr.webp'; // Placeholder: Add actual logo
+import dbmLogo from '../imgs/Logo_DBM.png'; // Placeholder: Add actual logo
+
+const experiencesData = [
+    {
+        company: "", // No company name
+        url: "", // No URL
+        position: "Blockchain Auditor & Researcher",
+        type: "Freelance", // Changed to Freelance to reflect autonomy
+        logo: null, // No logo
+        location: "Remote",
+        period: "Sep 2023 - Present",
+        responsibilities: [
+            { text: "Active participation in bug bounty programs on blockchain audit platforms", icon: "lucide:bug" },
+            { text: "Detection and reporting of critical vulnerabilities in smart contracts", icon: "lucide:shield-check" }
+        ]
+    },
+    {
+        company: "Mondelez International",
+        url: "https://www.mondelezinternational.com/",
+        position: "Lean Six Sigma Intern",
+        type: "Internship",
+        logo: mondelezLogo,
+        location: "Casablanca, Morocco",
+        period: "Feb 2024 - Aug 2024",
+        responsibilities: [
+            { text: "Led a DMAIC project, improving wafer line efficiency by 5%", icon: "lucide:trending-up" },
+            { text: "Developed IPO maps, conducted root cause analysis, and performed hypothesis testing", icon: "lucide:search" },
+            { text: "Designed and implemented data-driven improvement solutions", icon: "lucide:check-circle" },
+            { text: "Created Power BI dashboards for real-time KPI monitoring", icon: "lucide:bar-chart-2" }
+        ]
+    },
+    {
+        company: "Maghreb Oxygene",
+        url: "https://www.maghreboxygene.ma/",
+        position: "Supply Chain Intern",
+        type: "Internship",
+        logo: maghrebLogo,
+        location: "Casablanca, Morocco",
+        period: "Jun 2023 - Aug 2023",
+        responsibilities: [
+            { text: "Reduced delivery delays by 7% through operational data analysis", icon: "lucide:truck" },
+            { text: "Created technical documentation and optimized dispatcher workflows", icon: "lucide:file-text" }
+        ]
+    },
+    {
+        company: "Shellboxes",
+        url: "https://shellboxes.com/",
+        position: "Smart Contract Auditor & Penetration Tester Intern",
+        type: "Internship",
+        logo: shellboxesLogo,
+        location: "Marrakech, Morocco",
+        period: "Jul 2022 - Sep 2022",
+        responsibilities: [
+            { text: "Performed smart contract audits and identified vulnerabilities", icon: "lucide:shield" },
+            { text: "Conducted penetration testing on Cadi Ayyad University’s website", icon: "lucide:terminal" }
+        ]
+    },
+    {
+        company: "Digital IT",
+        url: "https://digitalit.ma/",
+        position: "Information Technology Intern",
+        type: "Internship",
+        logo: digitalITLogo,
+        location: "Casablanca, Morocco",
+        period: "Jul 2021 - Sep 2021",
+        responsibilities: [
+            { text: "Assisted in IT support and system maintenance", icon: "lucide:server" },
+            { text: "Supported digital infrastructure projects", icon: "lucide:network" }
+        ]
+    },
+    {
+        company: "HBlackFox – Fiverr",
+        url: "https://www.fiverr.com/",
+        position: "Music Producer",
+        type: "Freelance",
+        logo: fiverrLogo,
+        location: "Remote",
+        period: "Apr 2019 - Jun 2021",
+        responsibilities: [
+            { text: "Produced and mixed music tracks for clients on Fiverr", icon: "lucide:headphones" },
+            { text: "Collaborated with clients to meet creative requirements", icon: "lucide:users" }
+        ]
+    },
+    {
+        company: "DBM Maroc – Accent",
+        url: "",
+        position: "Phone, Laptop, and Tablet Repair Technician",
+        type: "Internship",
+        logo: dbmLogo,
+        location: "Mohammedia, Morocco",
+        period: "Aug 2019 - Sep 2019",
+        responsibilities: [
+            { text: "Repaired phones, tablets, and laptops, ensuring quality service", icon: "lucide:wrench" },
+            { text: "Provided after-sales support and customer service", icon: "lucide:phone" }
+        ]
+    }
+];
+---
+
+<section id="experience" class="py-16">
+    <h3 class="text-4xl font-bold mb-10 text-foreground">Experience</h3>
+    <div class="space-y-6">
+        {experiencesData.map((exp, index) => (
+            <Card className="bg-gradient-to-br from-background to-muted/30 rounded-2xl shadow-lg border overflow-hidden transition-all duration-300 hover:shadow-xl">
+                <div class="flex flex-col sm:flex-row items-center sm:items-stretch">
+                    <CardHeader className="flex-shrink-0 w-full sm:w-auto sm:flex-grow-0 p-6 flex items-center justify-start sm:justify-center">
+                        {exp.logo ? (
+                            <Image
+                                src={exp.logo}
+                                alt={`${exp.company} logo`}
+                                width={64}
+                                height={64}
+                                class="w-16 h-16 rounded-xl object-contain bg-white p-2 shadow-sm"
+                            />
+                        ) : (
+                            <div class="w-16 h-16 rounded-xl bg-gray-200 flex items-center justify-center">
+                                <Icon name="lucide:bitcoin" class="w-8 h-8 text-gray-500" />
+                            </div>
+                        )}
+                    </CardHeader>
+                    <CardContent className="flex-grow p-6 flex flex-col sm:flex-row sm:items-center justify-between w-full">
+                        <div>
+                            <h4 class="text-xl font-semibold text-foreground font-alt">
+                                {exp.company ? (
+                                    exp.url ? (
+                                        <a href={exp.url} target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-primary transition-colors">
+                                            {exp.company}
+                                        </a>
+                                    ) : (
+                                        <span>{exp.company}</span>
+                                    )
+                                ) : null}
+                            </h4>
+                            <p class="text-lg text-foreground/80 font-alt">{exp.position} - <span class="text-primary/80">{exp.type}</span></p>
+                            <div class="flex flex-wrap gap-4 mt-2">
+                                <div class="flex items-center text-sm text-foreground/60">
+                                    <Icon name="lucide:map-pin" class="w-4 h-4 mr-2 text-primary/70" />
+                                    {exp.location}
+                                </div>
+                                <div class="flex items-center text-sm text-foreground/60">
+                                    <Icon name="lucide:calendar" class="w-4 h-4 mr-2 text-primary/70" />
+                                    {exp.period}
+                                </div>
+                            </div>
+                        </div>
+                        <button class="responsibilities-toggle mt-4 sm:mt-0 text-primary hover:text-primary/80 transition-colors self-end bg-primary/10 hover:bg-primary/20 rounded-full p-2" data-index={index} aria-label="Toggle responsibilities">
+                            <Icon name="lucide:chevron-down" class="w-6 h-6 transition-transform duration-300 ease-in-out" />
+                        </button>
+                    </CardContent>
+                </div>
+                <div class="responsibilities-content hidden" data-index={index}>
+                    <CardContent className="bg-gradient-to-br from-muted/20 to-muted/10 p-6 border-t">
+                        <h5 class="text-lg font-semibold text-foreground mb-4">Key Responsibilities:</h5>
+                        <div class="grid gap-4">
+                            {exp.responsibilities.map((task) => (
+                                <div class="flex items-center p-4 bg-background/50 rounded-xl transition-all duration-300 hover:bg-primary/5 group">
+                                    <div class="bg-primary/10 p-2 rounded-full mr-4 group-hover:bg-primary/20">
+                                        <Icon name={task.icon} class="w-5 h-5 text-primary" />
+                                    </div>
+                                    <p class="text-sm text-foreground/80 flex-1">{task.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </CardContent>
+                </div>
+            </Card>
+        ))}
+    </div>
+</section>
+
+<style>
+    .responsibilities-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+    }
+    .responsibilities-content.expanded {
+        max-height: 1000px;
+        opacity: 1;
+        transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const toggles = document.querySelectorAll('.responsibilities-toggle');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const index = toggle.getAttribute('data-index');
+                const content = document.querySelector(`.responsibilities-content[data-index="${index}"]`);
+                const icon = toggle.querySelector('svg');
+
+                if (content && icon) {
+                    content.classList.toggle('expanded');
+                    content.classList.toggle('hidden');
+                    icon.style.transform = content.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+            });
+        });
+    });
+</script>

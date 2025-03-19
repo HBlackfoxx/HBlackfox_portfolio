@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Navigation from '../components/Navigation.astro';
+import Skills from '../components/Skills.astro';
+import Education from '@/components/Education.astro';
+import Experiences from "../components/Experiences.astro";
+import Projects from "../components/Projects.astro";
+import Footer from "../components/Footer";
+import Volunteering from '@/components/Volunteering.astro';
+---
+
+<Layout title="Yassine El Jakani - Cyber Security Engineer">
+  <div class="container mx-auto px-4">
+    <Header />
+    <Hero />
+    <Navigation />
+    <Skills />
+    <Education />
+    <Experiences />
+    <Projects />
+    <Volunteering />
+    <Footer client:load />
+  </div>
+</Layout>

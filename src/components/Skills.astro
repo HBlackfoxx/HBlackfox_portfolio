@@ -1,0 +1,85 @@
+---
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Icon } from 'astro-icon/components';
+const skills = [
+    {
+        category: 'Industrial Engineering',
+        icon: "lucide:factory",
+        items: [
+            { name: 'Lean Manufacturing', icon: "lucide:workflow" },
+            { name: 'Six Sigma', icon: "lucide:sigma" },
+            { name: 'Supply Chain Optimization', icon: "lucide:truck" },
+            { name: 'Process Improvement', icon: "lucide:refresh-cw" },
+            { name: 'Operations Research', icon: "lucide:calculator" }
+        ]
+    },
+    {
+        category: 'Data Analysis',
+        icon: "lucide:bar-chart",
+        items: [
+            { name: 'Statistical Analysis', icon: "lucide:line-chart" },
+            { name: 'Power BI', icon: "simple-icons:powerbi" },
+            { name: 'Pandas', icon: "simple-icons:pandas" },
+            { name: 'SQL', icon: "lucide:database" },
+            { name: 'Matplotlib/Seaborn', icon: "lucide:scatter-chart" }
+        ]
+    },
+    {
+        category: 'Artificial Intelligence',
+        icon: "lucide:brain-circuit",
+        items: [
+            { name: 'TensorFlow', icon: "simple-icons:tensorflow" },
+            { name: 'PyTorch', icon: "simple-icons:pytorch" },
+            { name: 'Scikit-learn', icon: "lucide:brain" }, // Changed to a general ML icon
+            { name: 'Deep Reinforcement Learning', icon: "lucide:network" },
+            { name: 'Predictive Modeling', icon: "lucide:trending-up" }
+        ]
+    },
+    {
+        category: 'Blockchain',
+        icon: "lucide:bitcoin",
+        items: [
+            { name: 'Solidity', icon: "simple-icons:solidity" },
+            { name: 'Rust', icon: "simple-icons:rust" },
+            { name: 'Foundry', icon: "lucide:hammer" },
+            { name: 'Hyperledger Fabric', icon: "lucide:layers" }, // Changed to a general layers icon
+            { name: 'Smart Contract Auditing', icon: "lucide:shield-check" }
+        ]
+    },
+    {
+        category: 'Programming & Tools',
+        icon: "lucide:code",
+        items: [
+            { name: 'Python', icon: "simple-icons:python" },
+            { name: 'Git', icon: "simple-icons:git" },
+            { name: 'Docker', icon: "simple-icons:docker" },
+            { name: 'Linux', icon: "simple-icons:linux" },
+            { name: 'Bash', icon: "simple-icons:gnubash" }
+        ]
+    }
+];
+---
+<section id="skills" class="py-16">
+    <h3 class="text-4xl font-bold mb-10 text-foreground">Skills</h3>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 grid-rows-auto">
+      {skills.map((skill) => (
+        <Card className="bg-background rounded-3xl shadow-lg border p-2 md:p-4 grow w-full">
+          <CardHeader>
+            <CardTitle className="flex items-center text-xl md:text-2xl font-semibold">
+              <Icon name={skill.icon} class="text-point w-10 h-10 mr-3" />
+              {skill.category}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex gap-2 flex-wrap">
+            {skill.items.map((item) => (
+              <div class="flex items-center gap-2">
+                <span aria-label={item.name} class="rounded-full px-4 py-2 tiny md:text-sm font-alt flex items-center gap-2 text-primary bg-background transition duration-300 ease-in-out cursor-pointer border border-primary hover:bg-primary hover:text-background">
+                    <Icon name={item.icon} class="w-6 h-6"/>{item.name}
+                </span>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+</section>
