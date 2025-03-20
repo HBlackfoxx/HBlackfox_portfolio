@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 
-import GCDSTE from '../../public/club_gcdste_logo.jpeg';
-import EMJE from '../../public/EMJE.png';
+
+import crisisLogo from '../../public/crisis_logo.jpg';
+
 
 interface VolunteerExperience {
     role: string;
@@ -33,42 +34,31 @@ function calculateDuration(startDate: Date, endDate?: Date): string {
 
 const volunteerExperiences: VolunteerExperience[] = [
     {
-        role: "Vice President",
-        organization: "Club GCDSTE Secure Tech ENSA Marrakech",
-        startDate: new Date(2023, 8),
-        description: [
-            "Facilitated collaboration between club teams, boosting productivity.",
-            "Organized AiSec 2024, an international AI and Cybersecurity summit.",
-            "Developed the official website for AiSec 2024, an international AI and Cybersecurity summit.",
-        ],
-        image: GCDSTE
-    },
-    {
-        role: "Competition Cell Member",
-        organization: "Club GCDSTE Secure Tech ENSA Marrakech",
-        startDate: new Date(2022, 8), 
+        role: "CTF Organizer",
+        organization: "CRISIS Club, ENSA Marrakech",
+        startDate: new Date(2022, 8),
         endDate: new Date(2023, 8),
         description: [
-            "Organized the second edition of CyberWeek, a week-long cybersecurity event.",
-            "Organized a national Capture The Flag (CTF) cybersecurity competition.",
-            "Created Web-Related Challenges for the CTF competition."
+            "Organized Capture The Flag (CTF) events, managing project logistics and coordinating with participants.",
+            "Designed and created cybersecurity challenges for the CTF competitions, focusing on real-world scenarios.",
+            "Collaborated with club members to promote cybersecurity awareness through competitive events."
         ],
-        image: GCDSTE
+        image: crisisLogo
     },
     {
-        role: "I.T Manager",
-        organization: "Club EMJE (ENSA Marrakech Junior Enterprise)",
-        startDate: new Date(2021, 8), 
+        role: "Independent BAC Tutor",
+        organization: "Autonomous Volunteering",
+        startDate: new Date(2021, 8),
         endDate: new Date(2022, 8),
         description: [
-            "Ensuring the proper functioning of the cell and the good progress of the projects",
-            "Carrying out various development projects and designing we sites",
+            "Provided free tutoring to high school students preparing for their BAC exams, focusing on mathematics and physics.",
+            "Created practice problems and study guides to help students understand key concepts like optimization and data analysis.",
+            "Supported students in small group sessions, helping them build confidence for their exams through practical examples."
         ],
-        image: EMJE
+        image: null
     },
     // More experiences...
 ];
-
 ---
 
 <section id="volunteering" class="py-16">

@@ -21,9 +21,9 @@ const RearrangedCompactFooter: React.FC = () => {
     }, []);
 
     const socialLinks: SocialLink[] = [
-        { Icon: Github, link: 'https://github.com/Eljakani', label: 'GitHub' },
-        { Icon: Linkedin, link: 'https://linkedin.com/in/eljakaniyassine', label: 'LinkedIn' },
-        { Icon: Twitter, link: 'https://x.com/eljakaniyassin', label: 'Twitter' },
+        //{ Icon: Github, link: 'https://github.com/Eljakani', label: 'GitHub' },
+        { Icon: Linkedin, link: 'https://www.linkedin.com/in/mohamed-boukri-427b37189/', label: 'LinkedIn' },
+        //{ Icon: Twitter, link: 'https://x.com/eljakaniyassin', label: 'Twitter' },
     ];
 
     return (
@@ -32,7 +32,7 @@ const RearrangedCompactFooter: React.FC = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="flex flex-col items-center md:items-start">
                         <a href="/"> <h2 className="text-2xl font-bold font-alt mb-2">Boukri<span className="text-point">.</span></h2></a>
-                        <p className="text-sm text-center md:text-start text-muted-foreground">Bridging the gap between &lt;dev/&gt; and security.</p>
+                        <p className="text-sm text-center md:text-start text-muted-foreground">Forging &lt;dev/&gt; with factory smarts & industrial guards.</p>
                     </div>
 
                     <div className="flex flex-col items-center md:items-end">
@@ -55,11 +55,11 @@ const RearrangedCompactFooter: React.FC = () => {
                         <div className="text-sm text-muted-foreground space-y-1">
                             <div className="flex items-center justify-center md:justify-end">
                                 <Mail size={14} className="mr-1" />
-                                <a href="mailto:hamada.cero@gmail.com">hamada.cero@gmail.com</a>
+                                <a href="mailto:mohamed.boukri@etu.ec-lyon.fr">mohamed.boukri@etu.ec-lyon.fr</a>
                             </div>
                             <div className="flex items-center justify-center md:justify-end">
                                 <Phone size={14} className="mr-1" />
-                                <a href="tel:+212672486817">+212 6 72 48 68 17</a>
+                                <a href="tel:+33781566085">+33 7 815 660 85</a>
                             </div>
                         </div>
                     </div>

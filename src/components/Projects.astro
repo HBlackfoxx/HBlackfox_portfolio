@@ -4,39 +4,49 @@ import { Image } from 'astro:assets';
 
 const projects = [
   {
-    id: 'siemtinel',
-    name: 'SIEMTINEL',
-    description: 'Cloud-based SIEM with ELK Stack and Suricata',
-    extendedDescription: 'A cloud-based SIEM system using the ELK Stack for real-time threat detection and analysis, with Suricata for network monitoring and Kafka for scalable log transport.',
+    id: 'intelligent_production_planning',
+    name: 'Intelligent Production Planning',
+    description: 'Comparative analysis of traditional and AI-based methods for manufacturing optimization',
+    extendedDescription: 'This research project conducts a systematic review and comparative analysis of optimization methods for manufacturing production planning, focusing on minimizing the makespan. It evaluates classical approaches, metaheuristic algorithms, and reinforcement learning techniques in a simulated industrial environment.',
     year: '2024',
-    icon: 'lucide:shield',
-    category: 'Security',
-    image: '/projects/siemtinel/siemtinel_featured.png',
-    tech: ['ELK stack', 'Suricata', 'Kafka', 'Docker', 'AWS']
+    icon: 'lucide:factory',
+    category: 'Research',
+    image: '/projects/intelligent_production_planning/featured.png',
+    tech: ['Python', 'PyTorch', 'NumPy', 'Matplotlib']
   },
   {
-    id: 'hac',
-    name: 'HaC (Hardening as Code)',
-    description: 'Linux hardening script based on ANSSI V2 guidelines',
-    extendedDescription: 'A modular Linux hardening script designed to enhance system security by implementing recommendations from the ANSSI V2 guidelines.',
-    year: '2023',
-    icon: 'lucide:shield-check',
-    category: 'Security',
-    image: '/projects/hac/hac_featured.png',
-    tech: ['Bash', 'Linux', 'ANSSI Guidelines']
+    id: 'maintenance_insights',
+    name: 'Maintenance Insights Dashboard',
+    description: 'Power BI dashboard for visualizing maintenance KPIs at Mondelez',
+    extendedDescription: 'Developed during an internship at Mondelez, this Power BI dashboard connects to an Excel file on SharePoint to visualize key maintenance KPIs. It features interactive filters for date, production lines, and machines, along with visualizations like bar charts and line charts to analyze downtime trends and operational efficiency.',
+    year: '2024',
+    icon: 'lucide:bar-chart',
+    category: 'Data Analytics',
+    image: '/projects/maintenance_insights/featured.png',
+    tech: ['Power BI', 'Excel', 'SharePoint']
   },
   {
-    id: 'quizqube',
-    name: 'QuizQube',
-    description: 'AI-powered quiz platform for learning and knowledge testing',
-    extendedDescription: 'An AI-powered quiz platform that helps users learn and test their knowledge by generating quizzes from uploaded documents.',
-    year: '2024',
-    icon: 'lucide:brain-circuit',
-    category: 'Personal',
-    image: '/projects/quizqube/quizqube_featured.png',
-    tech: ['Next.js', 'Shadcn UI', 'Framer Motion', 'NextAuth.js', 'AWS S3', 'LLMs']
+    id: "spss_tutorial",
+    name: "SPSS Tutorial for Data Analysis",
+    description: "A comprehensive guide to data analysis using SPSS with a real-world dataset",
+    extendedDescription: "This project involves creating a detailed tutorial on data analysis using SPSS, applied to the 'Machine Predictive Maintenance Classification' dataset, covering statistical techniques for educational purposes.",
+    year: "2023",
+    icon: "lucide:bar-chart",
+    category: "Data Analytics",
+    image: "/projects/spss_tutorial/featured.png",
+    tech: ["SPSS", "Statistics"]
   },
-  // more projects are yet to come ...
+  {
+    id: "wastewater_automation",
+    name: "Wastewater Treatment Automation",
+    description: "Automation of wastewater treatment processes using RSView and RSLogix",
+    extendedDescription: "Developed as part of an academic project at École Nationale des Sciences Appliquées de Marrakech, this project automates wastewater treatment processes. Using RSLogix for PLC programming and RSView for designing an interactive dashboard, the system monitors and controls tank levels, sludge accumulation, and alarms. It was a collaborative effort with team member Niama Abid.",
+    year: "2022",
+    icon: "lucide:droplet",
+    category: "Automation",
+    image: "/projects/wastewater_automation/featured.png",
+    tech: ["RSLogix", "RSView"]
+  },
 ];
 ---
 
