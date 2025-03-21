@@ -5,7 +5,7 @@ name: "Intelligent Production Planning"
 description: "Comparative Analysis of Traditional and AI-Based Methods for Manufacturing Optimization"
 icon: "lucide:factory"
 image: "/projects/intelligent_production_planning/featured.png"
-date: "2024"
+date: "2025"
 category: "Research"
 client: "École Centrale de Lyon"
 team:
