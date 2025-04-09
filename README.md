@@ -1,7 +1,3 @@
-# Eljakani's Personal Website
-
-Welcome to the repository of my personal website! This site showcases my skills, experiences, and projects as a Cybersecurity Engineer and DevSecOps enthusiast.
-
 ## 🚀 Technologies Used
 
 - [Astro](https://astro.build/): Fast, content-focused web framework
@@ -28,22 +24,3 @@ Welcome to the repository of my personal website! This site showcases my skills,
    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
-
-
-## 🔧 Customization
-
-Feel free to fork this repository and customize it for your own use. Update the content in the Astro pages and components to reflect your personal information and experiences.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Eljakani/eljakani.me/issues) if you want to contribute.
-
-## 📬 Contact
-
-Yassine El Jakani - [@eljakaniyassine](https://linkedin.com/in/eljakaniyassine) - eljakaniyassin@gmail.com
-
-Project Link: [https://eljakani.me](https://eljakani.me)
