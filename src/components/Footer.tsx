@@ -21,7 +21,7 @@ const RearrangedCompactFooter: React.FC = () => {
     }, []);
 
     const socialLinks: SocialLink[] = [
-        //{ Icon: Github, link: 'https://github.com/Eljakani', label: 'GitHub' },
+        { Icon: Github, link: 'https://github.com/HBlackfoxx', label: 'GitHub' },
         { Icon: Linkedin, link: 'https://www.linkedin.com/in/mohamed-boukri-427b37189/', label: 'LinkedIn' },
         //{ Icon: Twitter, link: 'https://x.com/eljakaniyassin', label: 'Twitter' },
     ];
