@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer';
+import { Icon } from 'astro-icon/components';
+import { Separator } from '@/components/ui/separator';
+
+const lastUpdated = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
+---
+
+<Layout 
+    title="Privacy Policy | Mohamed Boukri"
+    description="Privacy Policy and GDPR compliance information for Mohamed Boukri's portfolio website."
+    ogType="website"
+>
+    <div class="container mx-auto px-4">
+        <Header />
+    </div>
+
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold font-alt mb-4">Privacy Policy</h1>
+            <p class="text-muted-foreground">Last updated: {lastUpdated}</p>
+        </header>
+
+        <div class="prose prose-lg dark:prose-invert max-w-none">
+            <p>
+                This Privacy Policy describes how your personal information is collected, used, and shared when you visit <strong>boukri.me</strong> (the "Site").
+            </p>
+
+            <Separator className="my-8" />
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold font-alt mb-4 flex items-center gap-2">
+                    <Icon name="lucide:database" class="w-6 h-6 text-primary" />
+                    Personal Information We Collect
+                </h2>
+                <p>
+                    When you visit the Site, we automatically collect certain information about your device, including information about your web browser, IP address, time zone, and some of the cookies that are installed on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products that you view, what websites or search terms referred you to the Site, and information about how you interact with the Site. We refer to this automatically-collected information as "Device Information."
+                </p>
+                <p class="mt-4">
+                    We collect Device Information using the following technologies:
+                </p>
+                <ul class="list-disc pl-6 mt-2 space-y-2">
+                    <li>
+                        <strong>Cookies:</strong> Data files that are placed on your device or computer and often include an anonymous unique identifier.
+                    </li>
+                    <li>
+                        <strong>Log files:</strong> Track actions occurring on the Site, and collect data including your IP address, browser type, Internet service provider, referring/exit pages, and date/time stamps.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold font-alt mb-4 flex items-center gap-2">
+                    <Icon name="lucide:bar-chart" class="w-6 h-6 text-primary" />
+                    Google Analytics
+                </h2>
+                <p>
+                    We use Google Analytics to help us understand how our customers use the Site. Google Analytics uses cookies to collect information about your visit to the Site, including your IP address, the pages you visit, and the time you spend on the Site.
+                </p>
+                <p class="mt-2">
+                    You can read more about how Google uses your Personal Information here: 
+                    <a href="https://www.google.com/intl/en/policies/privacy/" target="_blank" rel="noopener noreferrer">https://www.google.com/intl/en/policies/privacy/</a>.
+                </p>
+                <p class="mt-2">
+                    You can also opt-out of Google Analytics here: 
+                    <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">https://tools.google.com/dlpage/gaoptout</a>.
+                </p>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold font-alt mb-4 flex items-center gap-2">
+                    <Icon name="lucide:shield" class="w-6 h-6 text-primary" />
+                    Your Rights (GDPR)
+                </h2>
+                <p>
+                    If you are a European resident, you have the right to access personal information we hold about you and to ask that your personal information be corrected, updated, or deleted. If you would like to exercise this right, please contact us through the contact information below.
+                </p>
+                <p class="mt-2">
+                    Additionally, if you are a European resident we note that we are processing your information in order to fulfill contracts we might have with you (for example if you make an order through the Site), or otherwise to pursue our legitimate business interests listed above.
+                </p>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold font-alt mb-4 flex items-center gap-2">
+                    <Icon name="lucide:mail" class="w-6 h-6 text-primary" />
+                    Contact Us
+                </h2>
+                <p>
+                    For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at:
+                </p>
+                <p class="mt-4 font-medium text-lg">
+                    <a href="mailto:mohamed.boukri@etu.ec-lyon.fr" class="text-primary hover:underline">
+                        mohamed.boukri@etu.ec-lyon.fr
+                    </a>
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <Footer client:load />
+</Layout>

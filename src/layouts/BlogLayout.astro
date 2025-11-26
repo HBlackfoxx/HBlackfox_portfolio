@@ -1,0 +1,842 @@
+---
+import Layout from './Layout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
+import { Icon } from 'astro-icon/components';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Image } from 'astro:assets';
+import { Separator } from '@/components/ui/separator';
+import mohamedBoukri from '../imgs/mohamed-boukri.jpg';
+
+interface Author {
+    name: string;
+    avatar?: string | ImageMetadata;
+    bio?: string;
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+}
+
+interface Frontmatter {
+    title: string;
+    description: string;
+    author?: Author;
+    publishDate: string;
+    updatedDate?: string;
+    heroImage?: ImageMetadata;
+    heroImageAlt?: string;
+    tags?: string[];
+    category?: string;
+    readingTime?: string;
+    draft?: boolean;
+    featured?: boolean;
+    relatedPosts?: string[];
+}
+
+const { frontmatter } = Astro.props;
+
+// Get related posts based on tags and category
+const allPosts = await Astro.glob('../pages/blog/*.{md,mdx}');
+const relatedPosts = allPosts
+    .filter(post => {
+        // Exclude current post and drafts
+        if (post.url === Astro.url.pathname || post.frontmatter.draft) return false;
+
+        // Check if post shares tags or category
+        const sharedTags = post.frontmatter.tags?.some((tag: string) =>
+            frontmatter.tags?.includes(tag)
+        );
+        const sameCategory = post.frontmatter.category === frontmatter.category;
+
+        return sharedTags || sameCategory;
+    })
+    .sort((a, b) => {
+        // Sort by number of shared tags
+        const aSharedTags = a.frontmatter.tags?.filter((tag: string) =>
+            frontmatter.tags?.includes(tag)
+        ).length || 0;
+        const bSharedTags = b.frontmatter.tags?.filter((tag: string) =>
+            frontmatter.tags?.includes(tag)
+        ).length || 0;
+        return bSharedTags - aSharedTags;
+    })
+    .slice(0, 3); // Show top 3 related posts
+
+// Default author info
+const defaultAuthor: Author = {
+    name: "Mohamed Boukri",
+    avatar: mohamedBoukri,
+    bio: "Industrial Engineer with a Master's degree in Data & AI from École Centrale de Lyon. Passionate about AI, blockchain, and industrial optimization.",
+    twitter: "@mohamedboukri",
+    linkedin: "mohamed-boukri",
+    github: "HBlackfox"
+};
+
+const author = frontmatter.author || defaultAuthor;
+
+// Calculate reading time if not provided
+const readingTime = frontmatter.readingTime || "5 min read";
+
+// Format dates
+const publishDate = new Date(frontmatter.publishDate).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
+
+const updatedDate = frontmatter.updatedDate
+    ? new Date(frontmatter.updatedDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    })
+    : null;
+
+// Structured data for SEO (JSON-LD)
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": frontmatter.title,
+    "description": frontmatter.description,
+    "image": frontmatter.heroImage ? `https://boukri.me${frontmatter.heroImage}` : "https://boukri.me/favicon.png",
+    "author": {
+        "@type": "Person",
+        "name": author.name,
+        "url": "https://boukri.me",
+        ...(author.twitter && { "sameAs": [
+            `https://twitter.com/${author.twitter.replace('@', '')}`,
+            ...(author.linkedin ? [`https://linkedin.com/in/${author.linkedin}`] : []),
+            ...(author.github ? [`https://github.com/${author.github}`] : [])
+        ]})
+    },
+    "publisher": {
+        "@type": "Person",
+        "name": "Mohamed Boukri",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://boukri.me/favicon.png"
+        }
+    },
+    "datePublished": frontmatter.publishDate,
+    "dateModified": frontmatter.updatedDate || frontmatter.publishDate,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://boukri.me${Astro.url.pathname}`
+    },
+    "inLanguage": "en-US",
+    ...(frontmatter.tags && { "keywords": frontmatter.tags.join(", ") }),
+    ...(frontmatter.category && { "articleSection": frontmatter.category }),
+    ...(readingTime && { "timeRequired": readingTime })
+};
+
+const currentUrl = `https://boukri.me${Astro.url.pathname}`;
+
+// Breadcrumb structured data
+const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://boukri.me"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://boukri.me/blog"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": frontmatter.title,
+            "item": currentUrl
+        }
+    ]
+};
+---
+
+<Layout
+    title={`${frontmatter.title} | Mohamed Boukri`}
+    description={frontmatter.description}
+    image={frontmatter.heroImage}
+    ogType="article"
+    twitterCard="summary_large_image"
+>
+    <!-- Canonical URL -->
+    <link slot="head" rel="canonical" href={currentUrl} />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+    <!-- Article Schema Meta Tags -->
+    <meta slot="head" property="article:published_time" content={frontmatter.publishDate} />
+    {frontmatter.updatedDate && <meta slot="head" property="article:modified_time" content={frontmatter.updatedDate} />}
+    <meta slot="head" property="article:author" content={author.name} />
+    {frontmatter.tags && frontmatter.tags.map((tag: string) => (
+        <meta slot="head" property="article:tag" content={tag} />
+    ))}
+    {frontmatter.category && <meta slot="head" property="article:section" content={frontmatter.category} />}
+
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress" class="fixed top-0 left-0 w-full h-1 bg-primary/20 z-50">
+        <div class="h-full bg-primary transition-all duration-150 ease-out" style="width: 0%"></div>
+    </div>
+
+    <div class="container mx-auto px-4">
+        <Header />
+    </div>
+
+    <article class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-8" aria-label="Breadcrumb">
+            <a href="/" class="hover:text-primary transition-colors">Home</a>
+            <Icon name="lucide:chevron-right" class="w-4 h-4" />
+            <a href="/blog" class="hover:text-primary transition-colors">Blog</a>
+            <Icon name="lucide:chevron-right" class="w-4 h-4" />
+            <span class="text-foreground font-medium truncate max-w-md">{frontmatter.title}</span>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="mb-12">
+            <!-- Category Badge -->
+            {frontmatter.category && (
+                <Badge variant="secondary" className="mb-4">
+                    {frontmatter.category}
+                </Badge>
+            )}
+
+            <!-- Title -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-alt mb-6 leading-tight">
+                {frontmatter.title}
+            </h1>
+
+            <!-- Description -->
+            <p class="text-xl text-muted-foreground mb-8 leading-relaxed">
+                {frontmatter.description}
+            </p>
+
+            <!-- Meta Information -->
+            <div class="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-8">
+                <!-- Author -->
+                <div class="flex items-center gap-2">
+                    <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted">
+                        {author.avatar ? (
+                            typeof author.avatar === 'string' ? (
+                                <img src={author.avatar} alt={author.name} class="aspect-square h-full w-full object-cover" />
+                            ) : (
+                                <Image src={author.avatar} alt={author.name} width={40} height={40} class="aspect-square h-full w-full object-cover" />
+                            )
+                        ) : (
+                            <div class="flex h-full w-full items-center justify-center rounded-full bg-primary/10 text-sm font-medium">
+                                {author.name.split(' ').map((n: string) => n[0]).join('')}
+                            </div>
+                        )}
+                    </div>
+                    <span class="font-medium text-foreground">{author.name}</span>
+                </div>
+
+                <!-- Divider -->
+                <span class="hidden sm:block">•</span>
+
+                <!-- Publish Date -->
+                <div class="flex items-center gap-2">
+                    <Icon name="lucide:calendar" class="w-4 h-4" />
+                    <time datetime={frontmatter.publishDate}>{publishDate}</time>
+                </div>
+
+                <!-- Reading Time -->
+                <div class="flex items-center gap-2">
+                    <Icon name="lucide:clock" class="w-4 h-4" />
+                    <span>{readingTime}</span>
+                </div>
+            </div>
+
+            <!-- Updated Date -->
+            {updatedDate && (
+                <div class="text-sm text-muted-foreground italic mb-8">
+                    Last updated: {updatedDate}
+                </div>
+            )}
+
+            <!-- Tags -->
+            {frontmatter.tags && frontmatter.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-8">
+                    {frontmatter.tags.map((tag: string) => (
+                        <Badge variant="outline" className="text-xs">
+                            #{tag}
+                        </Badge>
+                    ))}
+                </div>
+            )}
+
+            <!-- Hero Image -->
+            {frontmatter.heroImage && (
+                typeof frontmatter.heroImage === 'string' ? (
+                    <img
+                        src={frontmatter.heroImage}
+                        alt={frontmatter.heroImageAlt || frontmatter.title}
+                        class="w-full h-auto rounded-2xl shadow-2xl mb-8"
+                        loading="eager"
+                    />
+                ) : (
+                    <Image
+                        src={frontmatter.heroImage}
+                        alt={frontmatter.heroImageAlt || frontmatter.title}
+                        width={1200}
+                        height={630}
+                        class="w-full h-auto rounded-2xl shadow-2xl mb-8"
+                        loading="eager"
+                    />
+                )
+            )}
+        </header>
+
+        <Separator className="mb-12" />
+
+        <!-- Table of Contents -->
+        <details id="toc-container" class="mb-8 p-6 rounded-xl border border-border bg-muted/30">
+            <summary class="cursor-pointer font-semibold text-foreground flex items-center gap-2 select-none">
+                <Icon name="lucide:list" class="w-5 h-5 text-primary" />
+                Table of Contents
+                <Icon name="lucide:chevron-down" class="w-4 h-4 ml-auto transition-transform duration-200" id="toc-chevron" />
+            </summary>
+            <nav id="table-of-contents" class="mt-4 text-sm">
+                <!-- Will be populated by JavaScript -->
+            </nav>
+        </details>
+
+        <!-- Article Content -->
+        <div class="prose prose-lg dark:prose-invert max-w-none mb-12
+                    prose-headings:font-alt prose-headings:font-bold
+                    prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+                    prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+                    prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6
+                    prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                    prose-strong:text-foreground prose-strong:font-semibold
+                    prose-code:before:content-none prose-code:after:content-none
+                    prose-img:rounded-xl prose-img:shadow-lg
+                    prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-blockquote:italic
+                    prose-ul:my-6 prose-ol:my-6
+                    prose-li:text-muted-foreground prose-li:my-2">
+            <slot />
+        </div>
+
+        <Separator className="mb-12" />
+
+        <!-- Share Section -->
+        <section class="mb-12">
+            <h3 class="text-xl font-semibold mb-4 font-alt">Share this article</h3>
+            <div class="flex flex-wrap gap-3">
+                <Button variant="outline" size="sm" asChild>
+                    <a
+                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(currentUrl)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2"
+                    >
+                        <Icon name="lucide:twitter" class="w-4 h-4" />
+                        Twitter
+                    </a>
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                    <a
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2"
+                    >
+                        <Icon name="lucide:linkedin" class="w-4 h-4" />
+                        LinkedIn
+                    </a>
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                    <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2"
+                    >
+                        <Icon name="lucide:facebook" class="w-4 h-4" />
+                        Facebook
+                    </a>
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    id="copy-link-btn"
+                    class="flex items-center gap-2"
+                >
+                    <Icon name="lucide:link" class="w-4 h-4" />
+                    Copy Link
+                </Button>
+            </div>
+        </section>
+
+        <Separator className="mb-12" />
+
+        <!-- Author Bio -->
+        <section class="bg-muted/30 p-8 rounded-2xl mb-12">
+            <div class="flex items-start gap-4">
+                <div class="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-full bg-muted">
+                    {author.avatar ? (
+                        typeof author.avatar === 'string' ? (
+                            <img src={author.avatar} alt={author.name} class="aspect-square h-full w-full object-cover" />
+                        ) : (
+                            <Image src={author.avatar} alt={author.name} width={64} height={64} class="aspect-square h-full w-full object-cover" />
+                        )
+                    ) : (
+                        <div class="flex h-full w-full items-center justify-center rounded-full bg-primary/10 text-lg font-medium">
+                            {author.name.split(' ').map((n: string) => n[0]).join('')}
+                        </div>
+                    )}
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xl font-semibold mb-2 font-alt">About {author.name}</h3>
+                    {author.bio && <p class="text-muted-foreground mb-4">{author.bio}</p>}
+                    <div class="flex gap-3">
+                        {author.twitter && (
+                            <Button variant="ghost" size="sm" asChild>
+                                <a href={`https://twitter.com/${author.twitter.replace('@', '')}`} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                                    <Icon name="lucide:twitter" class="w-5 h-5" />
+                                </a>
+                            </Button>
+                        )}
+                        {author.linkedin && (
+                            <Button variant="ghost" size="sm" asChild>
+                                <a href={`https://linkedin.com/in/${author.linkedin}`} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                    <Icon name="lucide:linkedin" class="w-5 h-5" />
+                                </a>
+                            </Button>
+                        )}
+                        {author.github && (
+                            <Button variant="ghost" size="sm" asChild>
+                                <a href={`https://github.com/${author.github}`} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                                    <Icon name="lucide:github" class="w-5 h-5" />
+                                </a>
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Posts -->
+        {relatedPosts.length > 0 && (
+            <>
+                <Separator className="mb-12" />
+                <section class="mb-12">
+                    <h3 class="text-2xl font-bold text-foreground font-alt mb-6 flex items-center gap-2">
+                        <Icon name="lucide:sparkles" class="w-6 h-6 text-primary" />
+                        Related Articles
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        {relatedPosts.map(post => (
+                            <a
+                                href={post.url}
+                                class="group block p-6 rounded-xl border border-border bg-card hover:border-primary hover:shadow-lg transition-all duration-300"
+                            >
+                                {post.frontmatter.category && (
+                                    <Badge variant="secondary" className="mb-3">
+                                        {post.frontmatter.category}
+                                    </Badge>
+                                )}
+                                <h4 class="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                    {post.frontmatter.title}
+                                </h4>
+                                <p class="text-sm text-muted-foreground line-clamp-3 mb-4">
+                                    {post.frontmatter.description}
+                                </p>
+                                <div class="flex items-center gap-2 text-xs text-muted-foreground">
+                                    <Icon name="lucide:clock" class="w-3 h-3" />
+                                    <span>{post.frontmatter.readingTime || '5 min read'}</span>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            </>
+        )}
+    </article>
+
+    <Footer client:load />
+</Layout>
+
+<script>
+    // Reading progress bar
+    function updateReadingProgress() {
+        const progressBar = document.querySelector('#reading-progress > div');
+        if (!progressBar) return;
+
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const scrollTop = window.scrollY;
+
+        const maxScroll = documentHeight - windowHeight;
+        const scrollPercentage = (scrollTop / maxScroll) * 100;
+
+        progressBar.style.width = `${Math.min(scrollPercentage, 100)}%`;
+    }
+
+    document.addEventListener('astro:page-load', () => {
+        // Update progress on scroll
+        window.addEventListener('scroll', updateReadingProgress, { passive: true });
+        updateReadingProgress(); // Initial update
+
+        // Table of Contents
+        const tocNav = document.getElementById('table-of-contents');
+        const tocContainer = document.getElementById('toc-container');
+
+        if (tocNav && tocContainer) {
+            const articleContent = document.querySelector('.prose');
+            const headings = articleContent?.querySelectorAll('h2, h3');
+
+            if (headings && headings.length > 0) {
+                const tocList = document.createElement('div');
+                tocList.className = 'flex flex-col gap-1';
+
+                headings.forEach((heading, index) => {
+                    // Add ID to heading if it doesn't have one
+                    if (!heading.id) {
+                        heading.id = `heading-${index}`;
+                    }
+
+                    const link = document.createElement('a');
+                    link.href = `#${heading.id}`;
+                    link.textContent = heading.textContent;
+                    link.className = heading.tagName === 'H2'
+                        ? 'text-foreground font-medium py-1'
+                        : 'text-muted-foreground text-sm pl-4 py-1';
+
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        history.pushState(null, '', `#${heading.id}`);
+                    });
+
+                    tocList.appendChild(link);
+                });
+
+                tocNav.appendChild(tocList);
+            } else {
+                // Hide TOC if no headings
+                tocContainer.style.display = 'none';
+            }
+        }
+
+        // Copy link functionality
+        const copyBtn = document.getElementById('copy-link-btn');
+
+        copyBtn?.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                const icon = copyBtn.querySelector('[data-icon]');
+                const originalText = copyBtn.textContent;
+
+                copyBtn.textContent = 'Copied!';
+
+                setTimeout(() => {
+                    if (icon) {
+                        copyBtn.innerHTML = '';
+                        copyBtn.appendChild(icon);
+                        copyBtn.appendChild(document.createTextNode('Copy Link'));
+                    }
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy link:', err);
+            }
+        });
+
+        // Add copy buttons to code blocks
+        const codeBlocks = document.querySelectorAll('.prose pre');
+
+        codeBlocks.forEach((pre) => {
+            // Skip if button already exists
+            if (pre.querySelector('.copy-code-btn')) return;
+
+            // Create wrapper if it doesn't exist
+            if (!pre.parentElement?.classList.contains('code-block-wrapper')) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+                pre.parentNode?.insertBefore(wrapper, pre);
+                wrapper.appendChild(pre);
+            }
+
+            // Create copy button
+            const button = document.createElement('button');
+            button.className = 'copy-code-btn';
+            button.innerHTML = `
+                <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
+                <svg class="check-icon hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            `;
+            button.setAttribute('aria-label', 'Copy code to clipboard');
+            button.setAttribute('title', 'Copy code');
+
+            // Add click handler
+            button.addEventListener('click', async () => {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                try {
+                    await navigator.clipboard.writeText(code.textContent || '');
+
+                    // Toggle icons
+                    const copyIcon = button.querySelector('.copy-icon');
+                    const checkIcon = button.querySelector('.check-icon');
+
+                    if (copyIcon && checkIcon) {
+                        copyIcon.classList.add('hidden');
+                        checkIcon.classList.remove('hidden');
+                        button.classList.add('copied');
+                        button.setAttribute('title', 'Copied!');
+                    }
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        if (copyIcon && checkIcon) {
+                            copyIcon.classList.remove('hidden');
+                            checkIcon.classList.add('hidden');
+                            button.classList.remove('copied');
+                            button.setAttribute('title', 'Copy code');
+                        }
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy code:', err);
+                }
+            });
+
+            // Add button to pre element
+            pre.appendChild(button);
+        });
+    });
+</script>
+
+<style>
+    /* Custom styles for the article content */
+    article {
+        scroll-behavior: smooth;
+    }
+
+    /* Code block wrapper for positioning */
+    :global(.code-block-wrapper) {
+        position: relative;
+        margin: 1.5rem 0;
+    }
+
+    /* Inline code styling */
+    :global(.prose :not(pre) > code) {
+        color: hsl(var(--primary));
+        background-color: hsl(var(--muted));
+        padding: 0.2em 0.5em;
+        border-radius: 0.375rem;
+        font-size: 0.875em;
+        font-weight: 600;
+        border: 1px solid hsl(var(--border));
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    }
+
+    /* Code block container styling */
+    :global(.prose pre) {
+        max-width: 100%;
+        overflow-x: auto;
+        position: relative;
+        padding: 1.25rem 1.5rem !important;
+        border-radius: 0.75rem !important;
+        border: 2px solid rgba(148, 163, 184, 0.2) !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        margin: 2.5rem 0 !important;
+    }
+
+    :global(.dark .prose pre) {
+        border-color: rgba(148, 163, 184, 0.15) !important;
+    }
+
+    :global(.prose pre code) {
+        font-size: 0.875em;
+        line-height: 1.8;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        display: block;
+        background-color: transparent !important;
+    }
+
+    /* Line numbers styling */
+    :global(.prose pre.line-numbers) {
+        counter-reset: line;
+        padding-left: 3.5rem !important;
+    }
+
+    :global(.prose pre.line-numbers .line) {
+        position: relative;
+        padding-left: 1rem;
+    }
+
+    :global(.prose pre.line-numbers .line::before) {
+        counter-increment: line;
+        content: counter(line);
+        position: absolute;
+        left: -3rem;
+        width: 2rem;
+        text-align: right;
+        color: rgba(156, 163, 175, 0.5);
+        font-size: 0.875em;
+        user-select: none;
+    }
+
+    :global(.prose pre.line-numbers .line:hover::before) {
+        color: rgba(156, 163, 175, 0.8);
+    }
+
+    /* Copy button styling - minimal & subtle */
+    :global(.copy-code-btn) {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.375rem;
+        color: rgba(156, 163, 175, 0.4);
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        z-index: 10;
+        opacity: 0;
+    }
+
+    /* Show button on code block hover */
+    :global(.prose pre:hover .copy-code-btn) {
+        opacity: 1;
+    }
+
+    :global(.copy-code-btn:hover) {
+        color: hsl(var(--foreground));
+        background-color: hsl(var(--muted) / 0.8);
+        border-color: hsl(var(--border));
+    }
+
+    :global(.copy-code-btn.copied) {
+        color: hsl(var(--primary));
+        background-color: hsl(var(--primary) / 0.1);
+        border-color: hsl(var(--primary) / 0.3);
+        opacity: 1;
+    }
+
+    :global(.copy-code-btn svg) {
+        width: 0.875rem;
+        height: 0.875rem;
+        flex-shrink: 0;
+    }
+
+    :global(.copy-code-btn .hidden) {
+        display: none;
+    }
+
+    /* Table of Contents Styles */
+    #toc-container[open] #toc-chevron {
+        transform: rotate(180deg);
+    }
+
+    #toc-container summary {
+        list-style: none;
+    }
+
+    #toc-container summary::-webkit-details-marker {
+        display: none;
+    }
+
+    #toc-container summary:hover {
+        color: hsl(var(--primary));
+    }
+
+    #table-of-contents a {
+        display: block;
+        padding: 0.5rem 0;
+        transition: color 0.2s ease;
+        border-left: 2px solid transparent;
+        padding-left: 0.75rem;
+    }
+
+    #table-of-contents a:hover {
+        color: hsl(var(--primary));
+        border-left-color: hsl(var(--primary));
+        padding-left: 1rem;
+    }
+
+    /* Add smooth hover transitions */
+    :global(.prose a) {
+        transition: all 0.2s ease;
+    }
+
+    /* Improve image captions */
+    :global(.prose img + em) {
+        display: block;
+        text-align: center;
+        font-size: 0.875rem;
+        color: var(--muted-foreground);
+        margin-top: 0.5rem;
+    }
+
+    @media print {
+        /* Hide non-essential elements */
+        :global(nav), 
+        :global(footer), 
+        :global(.no-print),
+        :global(#reading-progress),
+        :global(#toc-container),
+        :global(.copy-code-btn),
+        :global(button),
+        :global(header div.flex.flex-wrap.gap-2.mb-8), /* Tags */
+        :global(section.mb-12) /* Share section and Related Posts */
+        {
+            display: none !important;
+        }
+
+        /* Reset layout */
+        :global(body), 
+        :global(main), 
+        :global(article) {
+            background: white !important;
+            color: black !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Typography for print */
+        :global(h1), :global(h2), :global(h3), :global(p), :global(li) {
+            color: black !important;
+            page-break-inside: avoid;
+        }
+
+        :global(a) {
+            text-decoration: underline;
+            color: black !important;
+        }
+
+        /* Show URLs for links */
+        :global(a[href^="http"]):after {
+            content: " (" attr(href) ")";
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        :global(pre) {
+            border: 1px solid #ccc !important;
+            white-space: pre-wrap !important;
+            word-break: break-all !important;
+        }
+    }
+</style>

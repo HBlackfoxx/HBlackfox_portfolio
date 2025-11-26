@@ -67,6 +67,8 @@ const RearrangedCompactFooter: React.FC = () => {
 
                 <div className="text-center text-xs text-muted-foreground mt-4 font-alt">
                     &copy; {new Date().getFullYear()} Mohamed Boukri. All rights reserved.
+                    <span className="mx-2">•</span>
+                    <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
                 </div>
             </div>
 

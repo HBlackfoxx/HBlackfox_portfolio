@@ -2,10 +2,6 @@
 import { Image } from 'astro:assets';
 import mohamedBoukri from '../imgs/mohamed-boukri.jpg'; // Placeholder: Replace with your actual image
 import { Icon } from 'astro-icon/components';
-const alert = {
-    'statu': "ongoing",
-    'title': "Seeking an end-of-studies internship",
-}
 import { Badge } from "@/components/ui/badge"
 ---
 
@@ -18,11 +14,6 @@ import { Badge } from "@/components/ui/badge"
         <h2 class="font-alt text-start text-lg md:text-3xl font-light text-balance">
             I <span class="text-point font-bold">Optimize</span> processes, and I <span class="text-point font-bold">Innovate</span> with AI & Blockchain.
         </h2>
-        <div class="items-center gap-2 flex-col md:flex-row mt-4 hidden md:flex">
-            <Badge variant="outline">
-                <span class="font-alt text-xs font-light antialiased leading-2 md:leading-tight">{alert.title}</span>
-            </Badge>
-        </div>
     </div>
 </div>
 <div class="my-4">

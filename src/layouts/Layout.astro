@@ -3,6 +3,7 @@ import { ViewTransitions } from 'astro:transitions';
 import '../styles/globals.css';
 import { GoogleFontsOptimizer } from "astro-google-fonts-optimizer";
 import { SEO } from "astro-seo";
+import CookieConsent from '@/components/CookieConsent.astro';
 
 interface Props {
   title?: string;
@@ -16,8 +17,8 @@ interface Props {
 }
 
 const defaultTitle = "Mohamed Boukri - Industrial AI & Blockchain Specialist";
-const defaultDescription = "Industrial Engineering graduate and Master’s student in Data & AI at École Centrale de Lyon. Passionate about optimizing industrial processes, leveraging AI for predictive analytics, and securing blockchain systems through smart contract auditing. Experienced in data analysis, machine learning, and supply chain optimization.";
-const defaultImage = "";
+const defaultDescription = "Industrial Engineering graduate and Master's student in Data & AI at École Centrale de Lyon. Passionate about optimizing industrial processes, leveraging AI for predictive analytics, and securing blockchain systems through smart contract auditing. Experienced in data analysis, machine learning, and supply chain optimization.";
+const defaultImage = "/og-image.png";
 const defaultOgType = "website";
 const defaultTwitterCreator = "";
 const defaultTwitterCard = "";
@@ -69,11 +70,13 @@ const siteUrl = "https://boukri.me"; // Replace with your actual site URL
       }}
       extend={{
         link: [
-          { rel: "icon", href: "/favicon.png" },
+          { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+          { rel: "manifest", href: "/manifest.json" },
           { rel: "canonical", href: `${siteUrl}${Astro.url.pathname}` }
         ],
         meta: [
           { name: "generator", content: Astro.generator },
+          { name: "theme-color", content: "#000000" },
         ],
       }}
   />
@@ -102,6 +105,62 @@ const siteUrl = "https://boukri.me"; // Replace with your actual site URL
       setTheme(getThemePreference());
     });
   </script>
+
+  <!-- Google Analytics 4 - Conditional Loading -->
+  {import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
+    <script define:vars={{ gaId: import.meta.env.PUBLIC_GA_MEASUREMENT_ID }} is:inline>
+      window.gaId = gaId;
+      
+      function loadGA() {
+        if (window.gaLoaded) return;
+        window.gaLoaded = true;
+        
+        // Load GA script
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(script);
+        
+        // Initialize GA
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', gaId);
+      }
+      
+      // Check consent on page load
+      const consent = localStorage.getItem('cookie_consent');
+      if (consent === 'granted') {
+        loadGA();
+      }
+      
+      // Listen for consent event
+      window.addEventListener('cookie-consent-granted', loadGA);
+      
+      // Re-check on page transitions
+      document.addEventListener('astro:after-swap', () => {
+        const consent = localStorage.getItem('cookie_consent');
+        if (consent === 'granted') {
+          loadGA();
+        }
+      });
+    </script>
+  )}
+
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Mohamed Boukri",
+      "url": "https://boukri.me",
+      "image": "https://boukri.me/og-image.png",
+      "jobTitle": "Industrial AI & Blockchain Specialist",
+      "sameAs": [
+        "https://github.com/HBlackfoxx",
+        "https://www.linkedin.com/in/mohamed-boukri-427b37189/"
+      ]
+    }
+  </script>
 </head>
 <body class="min-h-screen bg-background font-sans antialiased">
 <div class="relative flex min-h-screen flex-col container mx-auto px-4 max-w-5xl">
@@ -109,5 +168,6 @@ const siteUrl = "https://boukri.me"; // Replace with your actual site URL
     <slot />
   </div>
 </div>
+<CookieConsent />
 </body>
 </html>

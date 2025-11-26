@@ -1,0 +1,186 @@
+---
+# ============================================
+# BLOG POST TEMPLATE
+# ============================================
+# Copy this file and rename it to: your-blog-post-slug.mdx
+# Example: ai-machine-learning-basics.mdx
+#
+# IMPORTANT NAMING CONVENTIONS:
+# - Use kebab-case (lowercase with hyphens)
+# - Keep it short but descriptive (3-6 words)
+# - Include main keywords
+# - Examples:
+#   ✅ data-science-python-tutorial.mdx
+#   ✅ blockchain-smart-contracts-guide.mdx
+#   ❌ My_Blog_Post_2024.mdx
+#   ❌ post1.mdx
+# ============================================
+
+layout: ../../layouts/BlogLayout.astro
+
+# REQUIRED FIELDS
+# ============================================
+
+# Slug: URL-friendly identifier (should match filename)
+# Must be unique, kebab-case, no spaces
+# Example: "ai-machine-learning-tutorial"
+slug: "your-post-slug-here"
+
+# Title: Main headline (50-60 characters ideal for SEO)
+# Shows in: Page title, OpenGraph, Twitter Cards, Google results
+# Example: "Getting Started with Machine Learning in Python"
+title: "Your Article Title Here"
+
+# Description: Brief summary (150-160 characters ideal for SEO)
+# Shows in: Meta description, OpenGraph, Twitter Cards, Google snippet
+# Should be compelling and include main keyword
+# Example: "Learn the fundamentals of machine learning with Python. Step-by-step tutorial covering algorithms, data preparation, and model training for beginners."
+description: "Your compelling article description here that makes people want to click and read more."
+
+# Publish Date: When the article was first published
+# Format: YYYY-MM-DD
+# Used for: Sorting, SEO, article schema
+publishDate: "2024-03-15"
+
+# Category: Main topic (choose one)
+# Options: "AI & Machine Learning", "Blockchain", "Data Science",
+#          "Industrial Engineering", "Web Development", "Tutorial"
+# Shows in: Filter buttons, article metadata
+category: "AI & Machine Learning"
+
+# Tags: Related topics (3-6 tags recommended)
+# Use for: Filtering, SEO keywords, related posts
+# Format: Array of strings
+# Examples: ["Python", "Tutorial", "Beginner"]
+tags: ["Tag1", "Tag2", "Tag3"]
+
+# Hero Image: Main article image
+# Path: /blog/images/your-image-name.jpg
+# Image should be:
+#   - 1200x630px (OpenGraph standard)
+#   - High quality JPG or PNG
+#   - Relevant to article content
+#   - Stored in: public/blog/images/
+# Naming: use-same-slug-as-article.jpg
+heroImage: "/blog/images/your-image.jpg"
+
+# Hero Image Alt Text: Describe the image for accessibility
+# Important for: Screen readers, SEO, if image fails to load
+# Be descriptive but concise (125 characters max)
+heroImageAlt: "Descriptive text about what's in the image"
+
+# Reading Time: Estimated time to read
+# Format: "X min read"
+# Calculate: ~200 words per minute
+# Examples: "5 min read", "10 min read"
+readingTime: "5 min read"
+
+# OPTIONAL FIELDS
+# ============================================
+
+# Updated Date: When the article was last updated (optional)
+# Format: YYYY-MM-DD or null
+# Use when: Making significant content updates
+# Improves: SEO freshness signals
+updatedDate: null
+
+# Featured: Show in featured section (optional)
+# Set to: true or false
+# Default: false
+# Only feature your best 2-3 articles
+featured: false
+
+# Draft: Hide from published list (optional)
+# Set to: true or false
+# Default: false
+# Use when: Article is not ready to publish
+draft: false
+
+# Author: Override default author (optional)
+# Uncomment and fill if different from site author
+# author:
+#   name: "Guest Author Name"
+#   avatar: "/imgs/guest-author.jpg"
+#   bio: "Author bio here"
+#   twitter: "@authorhandle"
+#   linkedin: "author-linkedin"
+#   github: "authorusername"
+---
+
+## Introduction
+
+Start with a compelling hook that explains:
+- Why this topic matters
+- What problem it solves
+- What readers will learn
+
+Keep it concise (2-3 paragraphs).
+
+## Main Content
+
+### Section 1: Descriptive Heading
+
+Use clear, descriptive headings that include keywords. Break content into scannable sections.
+
+**Example formatting:**
+- Use **bold** for emphasis
+- Use *italics* for definitions
+- Use `code` for inline code
+- Use lists for easy scanning
+
+```javascript
+// Code blocks for examples
+function example() {
+  return "well-formatted code";
+}
+```
+
+### Section 2: Another Key Topic
+
+Include:
+- Practical examples
+- Real-world applications
+- Step-by-step instructions
+- Visual aids (when helpful)
+
+> Use blockquotes for important callouts or quotes
+
+### Section 3: Advanced Concepts
+
+- Break complex topics into digestible pieces
+- Use analogies and comparisons
+- Provide context and background
+- Link to related resources
+
+## Conclusion
+
+Summarize:
+- Key takeaways (3-5 bullet points)
+- Next steps for readers
+- Call to action (optional)
+
+---
+
+## Additional Resources
+
+- Link 1: [Resource Name](https://example.com)
+- Link 2: [Another Resource](https://example.com)
+- Link 3: [Documentation](https://example.com)
+
+---
+
+## SEO CHECKLIST (Delete before publishing)
+- [ ] Slug matches filename and is unique
+- [ ] Title is 50-60 characters
+- [ ] Description is 150-160 characters
+- [ ] Category is set correctly
+- [ ] 3-6 relevant tags added
+- [ ] Hero image is 1200x630px in /blog/images/
+- [ ] Alt text describes image accurately
+- [ ] Reading time is calculated
+- [ ] Draft is set to false when ready
+- [ ] Content includes keywords naturally
+- [ ] Headings are descriptive and hierarchical
+- [ ] Links open in new tabs if external
+- [ ] Code examples are tested
+- [ ] Spell check completed

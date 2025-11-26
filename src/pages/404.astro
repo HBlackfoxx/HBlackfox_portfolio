@@ -1,0 +1,120 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
+import { Button } from '@/components/ui/button';
+import { Icon } from 'astro-icon/components';
+---
+
+<Layout
+    title="404 - Page Not Found | Mohamed Boukri"
+    description="The page you're looking for doesn't exist. Let's get you back on track."
+>
+    <div class="container mx-auto px-4">
+        <Header />
+    </div>
+
+    <main class="container mx-auto px-4 py-16 max-w-4xl">
+        <div class="flex flex-col items-center justify-center text-center min-h-[60vh]">
+            <!-- 404 Illustration -->
+            <div class="mb-8">
+                <div class="relative">
+                    <h1 class="text-9xl md:text-[12rem] font-bold text-primary/10 font-alt select-none">
+                        404
+                    </h1>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <Icon name="lucide:search-x" class="w-24 h-24 md:w-32 md:h-32 text-primary" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4 font-alt">
+                Page Not Found
+            </h2>
+            <p class="text-lg text-muted-foreground mb-8 max-w-md">
+                Oops! The page you're looking for seems to have wandered off into the digital void.
+                Let's get you back on track.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-4 justify-center mb-12">
+                <Button variant="default" size="lg" asChild>
+                    <a href="/" class="flex items-center gap-2">
+                        <Icon name="lucide:home" class="w-5 h-5" />
+                        Go Home
+                    </a>
+                </Button>
+                <Button variant="outline" size="lg" asChild>
+                    <a href="/blog" class="flex items-center gap-2">
+                        <Icon name="lucide:book-open" class="w-5 h-5" />
+                        Read Blog
+                    </a>
+                </Button>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="w-full max-w-2xl">
+                <p class="text-sm font-semibold text-muted-foreground mb-4">
+                    Or try these popular pages:
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <a
+                        href="/"
+                        class="group p-4 rounded-lg border border-border bg-card hover:border-primary hover:shadow-md transition-all"
+                    >
+                        <Icon name="lucide:home" class="w-6 h-6 mx-auto mb-2 text-primary" />
+                        <p class="text-sm font-medium group-hover:text-primary transition-colors">Home</p>
+                    </a>
+                    <a
+                        href="/blog"
+                        class="group p-4 rounded-lg border border-border bg-card hover:border-primary hover:shadow-md transition-all"
+                    >
+                        <Icon name="lucide:newspaper" class="w-6 h-6 mx-auto mb-2 text-primary" />
+                        <p class="text-sm font-medium group-hover:text-primary transition-colors">Blog</p>
+                    </a>
+                    <a
+                        href="/#about"
+                        class="group p-4 rounded-lg border border-border bg-card hover:border-primary hover:shadow-md transition-all"
+                    >
+                        <Icon name="lucide:user" class="w-6 h-6 mx-auto mb-2 text-primary" />
+                        <p class="text-sm font-medium group-hover:text-primary transition-colors">About</p>
+                    </a>
+                    <a
+                        href="/#contact"
+                        class="group p-4 rounded-lg border border-border bg-card hover:border-primary hover:shadow-md transition-all"
+                    >
+                        <Icon name="lucide:mail" class="w-6 h-6 mx-auto mb-2 text-primary" />
+                        <p class="text-sm font-medium group-hover:text-primary transition-colors">Contact</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Search Suggestion -->
+            <div class="mt-12 text-sm text-muted-foreground">
+                <p>
+                    Looking for something specific? Try using the search in the
+                    <a href="/blog" class="text-primary hover:underline">blog section</a>.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <Footer client:load />
+</Layout>
+
+<style>
+    /* Add animation to 404 number */
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    h1 {
+        animation: float 3s ease-in-out infinite;
+    }
+</style>
