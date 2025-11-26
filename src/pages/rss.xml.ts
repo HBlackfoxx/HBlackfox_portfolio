@@ -9,11 +9,11 @@ export async function GET(context: APIContext) {
   }));
 
   const sortedPosts = posts
-    .filter(post => {
+    .filter((post: any) => {
       const filename = post.file.split(/[/\\]/).pop();
       return !post.frontmatter.draft && !filename?.startsWith('_');
     })
-    .sort((a, b) => {
+    .sort((a: any, b: any) => {
       const dateA = new Date(a.frontmatter.publishDate);
       const dateB = new Date(b.frontmatter.publishDate);
       return dateB.getTime() - dateA.getTime();

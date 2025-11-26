@@ -369,7 +369,7 @@ const breadcrumbSchema = {
                     variant="outline"
                     size="sm"
                     id="copy-link-btn"
-                    class="flex items-center gap-2"
+                    className="flex items-center gap-2"
                 >
                     <Icon name="lucide:link" class="w-4 h-4" />
                     Copy Link
@@ -469,7 +469,7 @@ const breadcrumbSchema = {
 <script>
     // Reading progress bar
     function updateReadingProgress() {
-        const progressBar = document.querySelector('#reading-progress > div');
+        const progressBar = document.querySelector('#reading-progress > div') as HTMLElement | null;
         if (!progressBar) return;
 
         const windowHeight = window.innerHeight;

@@ -14,19 +14,19 @@ const allPosts = await Astro.glob('./*.{md,mdx}');
 
 // Filter out drafts and sort by date
 const posts = allPosts
-    .filter(post => {
+    .filter((post: any) => {
         const filename = post.file.split(/[/\\]/).pop();
         return !post.frontmatter.draft && !filename?.startsWith('_');
     })
-    .sort((a, b) => {
+    .sort((a: any, b: any) => {
         const dateA = new Date(a.frontmatter.publishDate);
         const dateB = new Date(b.frontmatter.publishDate);
         return dateB.getTime() - dateA.getTime();
     });
 
 // Get unique categories and tags
-const categories = [...new Set(posts.map(post => post.frontmatter.category).filter(Boolean))];
-const allTags = posts.flatMap(post => post.frontmatter.tags || []);
+const categories = [...new Set(posts.map((post: any) => post.frontmatter.category).filter(Boolean))];
+const allTags = posts.flatMap((post: any) => post.frontmatter.tags || []);
 const uniqueTags = [...new Set(allTags)];
 
 // Get featured posts
@@ -178,7 +178,7 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured);
                         data-description={post.frontmatter.description.toLowerCase()}
                     >
                     <Card
-                        class="overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
+                        className="overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
                     >
                         <a href={post.url} class="block flex-1 flex flex-col">
                             {post.frontmatter.heroImage && (
@@ -200,7 +200,7 @@ const featuredPosts = posts.filter(post => post.frontmatter.featured);
                                     )}
                                 </div>
                             )}
-                            <CardHeader class="flex-1">
+                            <CardHeader className="flex-1">
                                 {post.frontmatter.category && (
                                     <Badge variant="secondary" className="mb-3 w-fit">
                                         {post.frontmatter.category}

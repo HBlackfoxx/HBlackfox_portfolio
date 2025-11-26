@@ -1,19 +1,21 @@
 ---
-import BlogLayout from '../../../layouts/BlogLayout.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer';
 import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
-  const allPosts = await Astro.glob('../../*.mdx');
-  const validPosts = allPosts.filter(post => {
+  const allPosts = await Astro.glob('../*.mdx') as any[];
+  const validPosts = allPosts.filter((post: any) => {
       const filename = post.file.split(/[/\\]/).pop();
       return !post.frontmatter.draft && !filename?.startsWith('_');
   });
-  
-  // Get unique categories
-  const uniqueCategories = [...new Set(validPosts.map((post) => post.frontmatter.category).filter(Boolean))];
 
-  return uniqueCategories.map((category) => {
-    const filteredPosts = validPosts.filter((post) => post.frontmatter.category === category);
+  // Get unique categories
+  const uniqueCategories = [...new Set(validPosts.map((post: any) => post.frontmatter.category).filter(Boolean))] as string[];
+
+  return uniqueCategories.map((category: string) => {
+    const filteredPosts = validPosts.filter((post: any) => post.frontmatter.category === category);
     // Simple slugify for category
     const slug = category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     return {
@@ -26,12 +28,15 @@ export async function getStaticPaths() {
 const { category, posts } = Astro.props;
 
 // Sort posts by date
-const sortedPosts = posts.sort((a, b) => 
+const sortedPosts = posts.sort((a: any, b: any) =>
   new Date(b.frontmatter.publishDate).valueOf() - new Date(a.frontmatter.publishDate).valueOf()
 );
 ---
 
-<BlogLayout title={`Category: ${category}`} description={`Blog posts in the ${category} category`}>
+<Layout title={`Category: ${category}`} description={`Blog posts in the ${category} category`}>
+  <div class="container mx-auto px-4">
+    <Header />
+  </div>
   <div class="container mx-auto px-4 py-12">
     <header class="mb-12 text-center">
       <div class="inline-flex items-center justify-center p-3 rounded-full bg-primary/10 mb-4">
@@ -42,7 +47,7 @@ const sortedPosts = posts.sort((a, b) =>
     </header>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {sortedPosts.map((post) => (
+      {sortedPosts.map((post: any) => (
         <a href={post.url} class="group block h-full bg-card border border-border rounded-2xl overflow-hidden hover:border-primary hover:shadow-lg transition-all duration-300">
           {post.frontmatter.heroImage && (
             <div class="aspect-video overflow-hidden">
@@ -76,4 +81,5 @@ const sortedPosts = posts.sort((a, b) =>
       ))}
     </div>
   </div>
-</BlogLayout>
+  <Footer client:load />
+</Layout>
