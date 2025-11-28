@@ -33,7 +33,10 @@ const sortedPosts = posts.sort((a: any, b: any) =>
 );
 ---
 
-<Layout title={`Category: ${category}`} description={`Blog posts in the ${category} category`}>
+<Layout
+  title={`${category} Articles | Mohamed Boukri Blog`}
+  description={`Explore ${posts.length} articles about ${category}. Read insights on ${category.toLowerCase()} from Mohamed Boukri's blog.`}
+>
   <div class="container mx-auto px-4">
     <Header />
   </div>

@@ -32,7 +32,11 @@ export async function GET(context: APIContext) {
         ...(post.frontmatter.category ? [post.frontmatter.category] : []),
         ...(post.frontmatter.tags || [])
       ],
+      author: 'Mohamed Boukri',
+      content: post.compiledContent ? post.compiledContent() : post.frontmatter.description,
     })),
-    customData: '<language>en-us</language>',
+    customData: `<language>en-us</language>
+    <copyright>© ${new Date().getFullYear()} Mohamed Boukri. All rights reserved.</copyright>
+    <webMaster>mohamed.boukri@etu.ec-lyon.fr (Mohamed Boukri)</webMaster>`,
   });
 }

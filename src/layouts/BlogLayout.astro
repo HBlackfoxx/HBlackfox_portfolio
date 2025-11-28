@@ -166,9 +166,6 @@ const breadcrumbSchema = {
     ogType="article"
     twitterCard="summary_large_image"
 >
-    <!-- Canonical URL -->
-    <link slot="head" rel="canonical" href={currentUrl} />
-
     <!-- Structured Data for SEO -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

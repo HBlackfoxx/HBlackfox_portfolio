@@ -34,7 +34,10 @@ const sortedPosts = posts.sort((a: any, b: any) =>
 );
 ---
 
-<Layout title={`Tag: ${tag}`} description={`Blog posts tagged with ${tag}`}>
+<Layout
+  title={`${tag} Articles | Mohamed Boukri Blog`}
+  description={`Explore ${posts.length} articles tagged with ${tag}. Read insights and tutorials about ${tag.toLowerCase()} from Mohamed Boukri.`}
+>
   <div class="container mx-auto px-4">
     <Header />
   </div>
