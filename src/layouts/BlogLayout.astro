@@ -331,7 +331,7 @@ const breadcrumbSchema = {
             <div class="flex flex-wrap gap-3">
                 <Button variant="outline" size="sm" asChild>
                     <a
-                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(currentUrl)}`}
+                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Hey, check out this article: "${frontmatter.title}"`)}&url=${encodeURIComponent(currentUrl)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="flex items-center gap-2"
@@ -342,7 +342,7 @@ const breadcrumbSchema = {
                 </Button>
                 <Button variant="outline" size="sm" asChild>
                     <a
-                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+                        href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(frontmatter.title)}&summary=${encodeURIComponent(`Hey, check out this article: "${frontmatter.title}"`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="flex items-center gap-2"
@@ -353,7 +353,7 @@ const breadcrumbSchema = {
                 </Button>
                 <Button variant="outline" size="sm" asChild>
                     <a
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}&quote=${encodeURIComponent(`Hey, check out this article: "${frontmatter.title}"`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="flex items-center gap-2"
@@ -835,5 +835,48 @@ const breadcrumbSchema = {
             white-space: pre-wrap !important;
             word-break: break-all !important;
         }
+    }
+
+    /* FAQ Section Styling */
+    :global(.prose h2#frequently-asked-questions),
+    :global(.prose h2[id*="faq"]) {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    :global(.prose h2#frequently-asked-questions::before),
+    :global(.prose h2[id*="faq"]::before) {
+        content: "❓";
+        font-size: 1.25rem;
+    }
+
+    /* FAQ Questions (h3 after FAQ heading) */
+    :global(.prose h2#frequently-asked-questions ~ h3),
+    :global(.prose h2[id*="faq"] ~ h3) {
+        background: linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--primary) / 0.1));
+        border-left: 4px solid hsl(var(--primary));
+        padding: 1rem 1.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        border-radius: 0 0.75rem 0.75rem 0;
+        font-size: 1.1rem;
+        transition: all 0.2s ease;
+    }
+
+    :global(.prose h2#frequently-asked-questions ~ h3:hover),
+    :global(.prose h2[id*="faq"] ~ h3:hover) {
+        background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary) / 0.15));
+        transform: translateX(4px);
+    }
+
+    /* FAQ Answers (p after FAQ h3) */
+    :global(.prose h2#frequently-asked-questions ~ h3 + p),
+    :global(.prose h2[id*="faq"] ~ h3 + p) {
+        background-color: hsl(var(--muted) / 0.3);
+        padding: 1rem 1.25rem;
+        border-radius: 0.75rem;
+        margin-top: 0;
+        border: 1px solid hsl(var(--border) / 0.5);
     }
 </style>
