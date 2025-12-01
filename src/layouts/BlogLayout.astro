@@ -38,13 +38,17 @@ const { frontmatter } = Astro.props;
 
 // Get related posts based on tags and category
 const allPosts = await Astro.glob('../pages/blog/*.{md,mdx}');
+const currentPath = Astro.url.pathname.replace(/\/$/, ''); // Remove trailing slash
 const relatedPosts = allPosts
     .filter(post => {
+        // Normalize post URL for comparison
+        const postPath = (post.url || '').replace(/\/$/, '');
+
         // Exclude current post, drafts, and underscore-prefixed files
-        if (post.url === Astro.url.pathname || post.frontmatter.draft) return false;
+        if (postPath === currentPath || post.frontmatter.draft) return false;
 
         // Exclude files starting with underscore (draft convention)
-        const slug = post.url?.split('/').pop() || '';
+        const slug = postPath.split('/').pop() || '';
         if (slug.startsWith('_')) return false;
 
         // Check if post shares tags or category
