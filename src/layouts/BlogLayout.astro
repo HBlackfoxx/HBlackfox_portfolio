@@ -40,8 +40,12 @@ const { frontmatter } = Astro.props;
 const allPosts = await Astro.glob('../pages/blog/*.{md,mdx}');
 const relatedPosts = allPosts
     .filter(post => {
-        // Exclude current post and drafts
+        // Exclude current post, drafts, and underscore-prefixed files
         if (post.url === Astro.url.pathname || post.frontmatter.draft) return false;
+
+        // Exclude files starting with underscore (draft convention)
+        const slug = post.url?.split('/').pop() || '';
+        if (slug.startsWith('_')) return false;
 
         // Check if post shares tags or category
         const sharedTags = post.frontmatter.tags?.some((tag: string) =>
