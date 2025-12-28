@@ -41,7 +41,8 @@ type DiscordField struct {
 
 // DiscordWebhook represents the Discord webhook payload
 type DiscordWebhook struct {
-	Embeds []DiscordEmbed `json:"embeds"`
+	Content string         `json:"content,omitempty"`
+	Embeds  []DiscordEmbed `json:"embeds"`
 }
 
 // Simple rate limiter with cleanup
@@ -116,10 +117,11 @@ func isValidEmail(email string) bool {
 }
 
 var (
-	webhookURL    string
-	allowedOrigin string
-	rateLimiter   = NewRateLimiter(5, time.Minute) // 5 requests per minute per IP
-	httpClient    = &http.Client{Timeout: 10 * time.Second}
+	webhookURL     string
+	allowedOrigin  string
+	discordUserID  string
+	rateLimiter    = NewRateLimiter(5, time.Minute) // 5 requests per minute per IP
+	httpClient     = &http.Client{Timeout: 10 * time.Second}
 )
 
 func main() {
@@ -132,6 +134,8 @@ func main() {
 	if allowedOrigin == "" {
 		allowedOrigin = "https://boukri.me"
 	}
+
+	discordUserID = os.Getenv("DISCORD_USER_ID")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -256,7 +260,14 @@ func sendToDiscord(form ContactForm) error {
 		subject = "No subject"
 	}
 
+	// Build mention string if user ID is configured
+	var mention string
+	if discordUserID != "" {
+		mention = "<@" + discordUserID + "> New contact form submission!"
+	}
+
 	webhook := DiscordWebhook{
+		Content: mention,
 		Embeds: []DiscordEmbed{
 			{
 				Title:       "New Contact Form Submission",
