@@ -55,7 +55,7 @@ const RearrangedCompactFooter: React.FC = () => {
                         <div className="text-sm text-muted-foreground space-y-1">
                             <div className="flex items-center justify-center md:justify-end">
                                 <Mail size={14} className="mr-1" />
-                                <a href="mailto:mohamed.boukri@etu.ec-lyon.fr">mohamed.boukri@etu.ec-lyon.fr</a>
+                                <a href="mailto:contact@boukri.me">contact@boukri.me</a>
                             </div>
                             <div className="flex items-center justify-center md:justify-end">
                                 <Phone size={14} className="mr-1" />

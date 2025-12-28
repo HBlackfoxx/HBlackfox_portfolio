@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PencilRuler, GraduationCap, BriefcaseBusiness, Binary, Sprout, Award } from 'lucide-react';
+import { PencilRuler, GraduationCap, BriefcaseBusiness, Binary, Sprout, Award, Mail } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 interface navItem {
@@ -85,6 +85,7 @@ const StickyNavigation: React.FC<StickyNavigationProps> = ({ navItems }) => {
             {item.icon === 'Binary' && <Binary size={24} />}
             {item.icon === 'Sprout' && <Sprout size={24} />}
             {item.icon === 'Award' && <Award size={24} />}
+            {item.icon === 'Mail' && <Mail size={24} />}
             <span className="text-sm hidden md:block">{item.label}</span>
           </Button>          
           ))}

@@ -37,6 +37,6 @@ export async function GET(context: APIContext) {
     })),
     customData: `<language>en-us</language>
     <copyright>© ${new Date().getFullYear()} Mohamed Boukri. All rights reserved.</copyright>
-    <webMaster>mohamed.boukri@etu.ec-lyon.fr (Mohamed Boukri)</webMaster>`,
+    <webMaster>contact@boukri.me (Mohamed Boukri)</webMaster>`,
   });
 }

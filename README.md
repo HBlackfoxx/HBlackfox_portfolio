@@ -210,7 +210,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - Website: [boukri.me](https://boukri.me)
 - LinkedIn: [mohamed-boukri](https://www.linkedin.com/in/mohamed-boukri-427b37189/)
 - GitHub: [@HBlackfoxx](https://github.com/HBlackfoxx)
-- Email: mohamed.boukri@etu.ec-lyon.fr
+- Email: contact@boukri.me
 
 ---
 
